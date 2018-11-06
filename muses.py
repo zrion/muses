@@ -50,7 +50,13 @@ def load(filepath):
 
 		return tracks
 
+def main():
+	return
 
+
+if __name__ == '__main__':
+	main()
+	
 # features_file = dirname(realpath(sys.argv[0])) + "/fma_dataset/features.csv"
 # tracks_file = dirname(realpath(sys.argv[0])) + "/fma_dataset/tracks.csv"
 # genres_file = dirname(realpath(sys.argv[0])) + "/fma_dataset/genres.csv"

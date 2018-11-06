@@ -3,7 +3,7 @@
 We focus on music genre classification, which is a crucial problem for music recommender systems.
 
 - Python version: Python 2.7
-- Library used: 
+- Libraries used: 
 	- For data manipulation and visualization: Numpy, scipy, pandas, matplotlib
 	- For learning and prediction: Scikit-learn, xgboost
 

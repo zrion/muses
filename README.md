@@ -1,4 +1,4 @@
-# MusEs: **Mu**sic genre cla**s**sification with **E**n**s**emble learning
+# MusEs: **_Mu_**sic genre cla**_s_**sification with **_E_**n**_s_**emble learning
 
 This is a kick-off for the project. We focus on music genre classification, which is a crucial problem for music recommender systems.
 

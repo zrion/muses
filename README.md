@@ -1,4 +1,4 @@
-# MuSES: Music genre Suggestion with EnSemble learning
+# MusEs: **Mu**sic genre cla**s**sification with **E**n**s**emble learning
 
 This is a kick-off for the project. We focus on music genre classification, which is a crucial problem for music recommender systems.
 
@@ -12,5 +12,10 @@ We will evaluate through various learning models for the task. Planned models to
 - Baseline models: Softmax regression, Decision tree
 - Advanced models: SVM kernel RBF, Neural Network
 - **Ensemble models**: XGBoost (Extreme Gradient Boosting) and ExtraTrees (Extremely Randomized Trees)
+
+Our techniques we intent to use:
+- Unbalanced dataset: Resampling (Problem: Overfitting!!), Cost-Sensitive Learning (Problem: Cannot wrap around for all models! (http://storm.cis.fordham.edu/~gweiss/papers/dmin07-weiss.pdf)
+- Overfitting: Regularization (L2, LASSO), Dropout (for neural network)
+- Feature selection: PCA, any other (e.g. pre-analyze data to see if features are discriminate)?
 
 To be updated...

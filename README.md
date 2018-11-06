@@ -1,6 +1,6 @@
-# MusEs: __Mu__sic genre cla__s__sification with __E__n__s__emble learning
+# MusEs: *Mu*sic genre cla*s*sification with *E*n*s*emble learning
 
-This is a kick-off for the project. We focus on music genre classification, which is a crucial problem for music recommender systems.
+We focus on music genre classification, which is a crucial problem for music recommender systems.
 
 - Python version: Python 2.7
 - Library used: 

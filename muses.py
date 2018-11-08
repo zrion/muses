@@ -6,8 +6,11 @@ import pandas as pd
 import numpy as np
 import argparse
 import matplotlib.pyplot as plt
-from sklearn import utils
+
+import sklearn as skl
+import sklearn.utils, sklearn.preprocessing, sklearn.decomposition, sklearn.svm
 import ast
+import xgboost as xgb
 
 
 def load(filepath):
@@ -51,6 +54,54 @@ def load(filepath):
 		return tracks
 
 def main():
+
+	features_file = dirname(realpath(sys.argv[0])) + "/fma_dataset/features.csv"
+	tracks_file = dirname(realpath(sys.argv[0])) + "/fma_dataset/tracks.csv"
+	genres_file = dirname(realpath(sys.argv[0])) + "/fma_dataset/genres.csv"
+
+	# Load dataset
+	print "Load dataset..."
+	tracks = load(tracks_file)
+	genres = load(genres_file)
+	features = load(features_file)
+
+	# Parse medium set
+	medium = tracks['set', 'subset'] <= 'medium'
+
+	# Split dataset
+	train = tracks['set', 'split'] == 'training'
+	val = tracks['set', 'split'] == 'validation'
+	test = tracks['set', 'split'] == 'test'
+
+	y_train = tracks.loc[medium & train, ('track', 'genre_top')]
+	y_test = tracks.loc[medium & test, ('track', 'genre_top')]
+	enc = skl.preprocessing.LabelEncoder()
+	y_train = enc.fit_transform(y_train)
+	y_test = enc.transform(y_test)
+
+	X_train = features.loc[medium & train, 'mfcc']
+	X_test = features.loc[medium & test, 'mfcc']
+
+	print('{} training examples, {} testing examples'.format(y_train.size, y_test.size))
+	print('{} features, {} classes'.format(X_train.shape[1], np.unique(y_train).size))
+
+	# Be sure training samples are shuffled.
+	X_train, y_train = skl.utils.shuffle(X_train, y_train, random_state=42)
+
+	# Standardize features by removing the mean and scaling to unit variance.
+	scaler = skl.preprocessing.StandardScaler(copy=False)
+	scaler.fit_transform(X_train)
+	scaler.transform(X_test)
+
+	# # Support vector classification.
+	# clf = skl.svm.SVC()
+	# print "Start training..."
+	# clf.fit(X_train, y_train)
+	# score = clf.score(X_test, y_test)
+	# print('Accuracy: {:.2%}'.format(score))
+	dtrain = xgb.DMatrix(X_train, y_train)
+	dtest  = xgb.DMatrix(X_test, y_test)
+
 	return
 
 

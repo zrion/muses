@@ -58,10 +58,10 @@ def main():
 	# clf = skl.svm.SVC()
 
 	# First XGBoost
-	# clf = XGBClassifier(n_estimator=1000, max_depth=5)
+	clf = XGBClassifier(n_estimator=1000, max_depth=5, objective='multi:softmax')
 
 	# First ExtraTrees
-	clf = ExtraTreesClassifier(n_estimator=2000)
+	# clf = ExtraTreesClassifier(n_estimator=2000)
 
 	print "Start training..."
 	clf.fit(X_train, y_train)

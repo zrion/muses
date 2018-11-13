@@ -12,6 +12,7 @@ import sklearn as skl
 import sklearn.utils, sklearn.preprocessing, sklearn.decomposition, sklearn.svm
 import ast
 from xgboost import XGBClassifier
+from sklearn.ensemble import ExtraTreesClassifier
 
 def main():
 
@@ -53,15 +54,19 @@ def main():
 	scaler.fit_transform(X_train)
 	scaler.transform(X_test)
 
-	# # Support vector classification.
+	# Support vector classification.
 	# clf = skl.svm.SVC()
 
-	clf = XGBClassifier(n_estimator=100, max_depth=3)
+	# First XGBoost
+	# clf = XGBClassifier(n_estimator=1000, max_depth=5)
+
+	# First ExtraTrees
+	clf = ExtraTreesClassifier(n_estimator=2000)
 
 	print "Start training..."
 	clf.fit(X_train, y_train)
 	y_pred = clf.predict(X_test)
-	score = accuracy_score(y_test, y_pred)*100
+	score = accuracy_score(y_test, y_pred)
 	print('Accuracy: {:.2%}'.format(score))
 
 	

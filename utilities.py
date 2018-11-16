@@ -95,8 +95,6 @@ def modelfit_XGB(alg, X_train, y_train, useTrainCV=True, cv_folds=5, early_stopp
 		xgb_param 	= alg.get_xgb_params()
 		xgb_param['num_class'] = 16
 		xgtrain 	= xgb.DMatrix(X_train, label=y_train)
-		print X_train.shape, y_train.shape
-		print xgtrain
 		cvresult 	= xgb.cv(xgb_param, xgtrain, num_boost_round=alg.get_params()['n_estimators'], nfold=cv_folds,
 		    metrics='auc', early_stopping_rounds=early_stopping_rounds)
 		alg.set_params(n_estimators=cvresult.shape[0])

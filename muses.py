@@ -66,7 +66,7 @@ def main():
 		 scale_pos_weight=1,
 		 seed=50)
 
-	modelfit_XGB(xgb1, X_train, y_train)
+	modelfit_XGB(xgb1, X_train, np.reshape(y_train, (-1, 1)))
 
 	# First ExtraTrees
 	# clf = ExtraTreesClassifier(n_estimator=2000)

@@ -6,7 +6,7 @@ import pandas as pd
 # Evaluation helper
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 from sklearn.model_selection import KFold 
-from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.metrics import accuracy_score, confusion_matrix, log_loss
 
 # Training helper
 from sklearn.model_selection import GridSearchCV			# Grid search for optimal params
@@ -95,14 +95,12 @@ def modelfit_XGB(alg, X_train, y_train, useTrainCV=True, cv_folds=5, early_stopp
 		xgb_param 	= alg.get_xgb_params()
 		xgb_param['num_class'] = 16
 		xgtrain 	= xgb.DMatrix(X_train, label=y_train)
-		print X_train.shape, y_train.shape
-		print xgtrain
 		cvresult 	= xgb.cv(xgb_param, xgtrain, num_boost_round=alg.get_params()['n_estimators'], nfold=cv_folds,
-		    metrics='auc', early_stopping_rounds=early_stopping_rounds)
+		    metrics='mlogloss', early_stopping_rounds=early_stopping_rounds)
 		alg.set_params(n_estimators=cvresult.shape[0])
 
 	# Fit the algorithm on the data
-	alg.fit(X_train, y_train, eval_metric='auc')
+	alg.fit(X_train, y_train, eval_metric='mlogloss')
 	    
 	# Predict training set:
 	y_pred = alg.predict(X_train)
@@ -111,7 +109,7 @@ def modelfit_XGB(alg, X_train, y_train, useTrainCV=True, cv_folds=5, early_stopp
 	# Print model report:
 	print "\nModel Report"
 	print "Accuracy : %.4g" % metrics.accuracy_score(y_train, y_pred)
-	print "AUC Score (Train): %f" % metrics.roc_auc_score(y_pred, y_predprob)
+	print "Log loss (Train): %f" % metrics.log_loss(y_pred, y_predprob)
 
 	# feat_imp = pd.Series(alg.booster().get_fscore()).sort_values(ascending=False)
 	# feat_imp.plot(kind='bar', title='Feature Importances')

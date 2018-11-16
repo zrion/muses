@@ -9,7 +9,7 @@ from sklearn.model_selection import KFold
 from sklearn.metrics import accuracy_score, confusion_matrix
 
 # Training helper
-from sklearn.grid_search import GridSearchCV			# Grid search for optimal params
+from sklearn.model_selection import GridSearchCV			# Grid search for optimal params
 from xgboost import xgb
 
 # Metrics

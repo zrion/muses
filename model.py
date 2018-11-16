@@ -6,8 +6,6 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import SGDClassifier			
 from sklearn.svm import SVC
 
-from sklearn.grid_search import GridSearchCV			# Grid search for optimal params
-
 import pandas as pd
 import numpy as np
 

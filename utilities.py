@@ -12,6 +12,10 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.model_selection import GridSearchCV			# Grid search for optimal params
 import xgboost as xgb
 
+# Preprocessing
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.utils import shuffle
+
 # Metrics
 from sklearn.metrics import accuracy_score
 def load(filepath):

@@ -7,12 +7,7 @@ import numpy as np
 import argparse
 import matplotlib.pyplot as plt
 from utilities import *
-
-import sklearn as skl
-import sklearn.utils, sklearn.preprocessing, sklearn.decomposition, sklearn.svm
-import ast
-from xgboost import XGBClassifier
-from sklearn.ensemble import ExtraTreesClassifier
+from model import *
 
 def main():
 
@@ -57,17 +52,32 @@ def main():
 	# Support vector classification.
 	# clf = skl.svm.SVC()
 
-	# First XGBoost
-	clf = XGBClassifier(n_estimator=1000, max_depth=5, objective='multi:softmax')
+	# Tuning n_estimators
+	xgb1 = XGBClassifier(
+		 learning_rate =0.1,
+		 n_estimators=1000,
+		 max_depth=5,
+		 min_child_weight=1,
+		 gamma=0,
+		 subsample=0.8,
+		 colsample_bytree=0.8,
+		 objective= 'multi:softmax',
+		 nthread=4,
+		 scale_pos_weight=1,
+		 seed=50)
+
+	modelfit_XGB(xgb1, X_train, y_train)
 
 	# First ExtraTrees
 	# clf = ExtraTreesClassifier(n_estimator=2000)
 
-	print "Start training..."
-	clf.fit(X_train, y_train)
-	y_pred = clf.predict(X_test)
-	score = accuracy_score(y_test, y_pred)
-	print('Accuracy: {:.2%}'.format(score))
+	# print "Start training..."
+	# clf.fit(X_train, y_train)
+
+
+	# y_pred = clf.predict(X_test)
+	# score = accuracy_score(y_test, y_pred)
+	# print('Accuracy: {:.2%}'.format(score))
 
 	
 	return

@@ -3,9 +3,14 @@ from os.path import isfile, join, dirname, basename, splitext, realpath
 import sys, re, os, ast
 import pandas as pd
 
+# Evaluation helper
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 from sklearn.model_selection import KFold 
 from sklearn.metrics import accuracy_score, confusion_matrix
+
+# Training helper
+from sklearn.grid_search import GridSearchCV			# Grid search for optimal params
+from xgboost import xgb
 
 # Metrics
 from sklearn.metrics import accuracy_score
@@ -69,12 +74,40 @@ def k_fold_cv(X_train, y_train, num_folds, classifier):
 
 	return avg_scores
 
-def evaluation(y_test, y_pred)
-	print("Confusion Matrix: ", 
-	    confusion_matrix(y_test, y_pred)) 
+def evaluation(y_test, y_pred):
+	confusion_matrix = confusion_matrix(y_test, y_pred) 
 	accuracy = 	accuracy_score(y_test,y_pred)*100
 	
-	print ("Accuracy : ", 
-	accuracy_score(y_test,y_pred)*100) 
+	print ("Accuracy:", accuracy) 
 	  
 	return accuracy
+
+def modelfit_XGB(alg, X_train, y_train, useTrainCV=True, cv_folds=5, early_stopping_rounds=50):
+    '''
+    	Fitting function for our main method: XGBoost.
+    	Thanks https://www.analyticsvidhya.com/blog/2016/03/complete-guide-parameter-tuning-xgboost-with-codes-python/
+    '''
+    if useTrainCV:
+        xgb_param 	= alg.get_xgb_params()
+        xgtrain 	= xgb.DMatrix(X_train, label=y_train)
+		cvresult 	= xgb.cv(xgb_param, xgtrain, num_boost_round=alg.get_params()['n_estimators'], nfold=cv_folds,
+            metrics='auc', early_stopping_rounds=early_stopping_rounds, show_progress=False)
+        alg.set_params(n_estimators=cvresult.shape[0])
+    
+    #Fit the algorithm on the data
+    alg.fit(X_train, y_train, eval_metric='auc')
+        
+    #Predict training set:
+    y_pred = alg.predict(X_train)
+    y_predprob = alg.predict_proba(X_train)[:,1]
+        
+    #Print model report:
+    print "\nModel Report"
+    print "Accuracy : %.4g" % metrics.accuracy_score(y_train, y_pred)
+    print "AUC Score (Train): %f" % metrics.roc_auc_score(y_pred, y_predprob)
+                    
+    # feat_imp = pd.Series(alg.booster().get_fscore()).sort_values(ascending=False)
+    # feat_imp.plot(kind='bar', title='Feature Importances')
+    # plt.ylabel('Feature Importance Score')
+
+    return

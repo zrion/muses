@@ -18,4 +18,6 @@ Our techniques we intent to use:
 - Overfitting: Regularization (L2, LASSO), Dropout (for neural network)
 - Feature selection: PCA, any other (e.g. pre-analyze data to see if features are discriminate)?
 
-To be updated...
+Our strategy:
+- Cleaning up dataset: Basically dataset is clean already, no missing values and all values are numerical so appropriate for any models. So what we need to do is FEATURE SELECTIONS. One obvious approach is dimensionality reduction. Another "exhaustive" approach is manual selection. We investigate data based on the kind of features, e.g. 'mfcc', 'tonnetz', etc. Due to time limit, I would not suggest to do this.
+- Parameter tuning: One way to apply CV is to train n_estimators and max_depth. Other parameters like gamma, learning_rate, alpha, beta can be set after that.  

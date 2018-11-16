@@ -55,9 +55,9 @@ def load(filepath):
 
 
 def k_fold_cv(X_train, y_train, num_folds, classifier):
-''' 
-	k-fold cross validation, return the average error on classifying validation set
-'''
+	''' 
+		k-fold cross validation, return the average error on classifying validation set
+	'''
 	# Call KFold to split the set
 	kfold = KFold(n_splits=num_folds)
 
@@ -83,31 +83,31 @@ def evaluation(y_test, y_pred):
 	return accuracy
 
 def modelfit_XGB(alg, X_train, y_train, useTrainCV=True, cv_folds=5, early_stopping_rounds=50):
-    '''
-    	Fitting function for our main method: XGBoost.
-    	Thanks https://www.analyticsvidhya.com/blog/2016/03/complete-guide-parameter-tuning-xgboost-with-codes-python/
-    '''
-    if useTrainCV:
-        xgb_param 	= alg.get_xgb_params()
-        xgtrain 	= xgb.DMatrix(X_train, label=y_train)
+	'''
+		Fitting function for our main method: XGBoost.
+		Thanks https://www.analyticsvidhya.com/blog/2016/03/complete-guide-parameter-tuning-xgboost-with-codes-python/
+	'''
+	if useTrainCV:
+		xgb_param 	= alg.get_xgb_params()
+		xgtrain 	= xgb.DMatrix(X_train, label=y_train)
 		cvresult 	= xgb.cv(xgb_param, xgtrain, num_boost_round=alg.get_params()['n_estimators'], nfold=cv_folds,
-            metrics='auc', early_stopping_rounds=early_stopping_rounds, show_progress=False)
-        alg.set_params(n_estimators=cvresult.shape[0])
-    
-    #Fit the algorithm on the data
-    alg.fit(X_train, y_train, eval_metric='auc')
-        
-    #Predict training set:
-    y_pred = alg.predict(X_train)
-    y_predprob = alg.predict_proba(X_train)[:,1]
-        
-    #Print model report:
-    print "\nModel Report"
-    print "Accuracy : %.4g" % metrics.accuracy_score(y_train, y_pred)
-    print "AUC Score (Train): %f" % metrics.roc_auc_score(y_pred, y_predprob)
-                    
-    # feat_imp = pd.Series(alg.booster().get_fscore()).sort_values(ascending=False)
-    # feat_imp.plot(kind='bar', title='Feature Importances')
-    # plt.ylabel('Feature Importance Score')
+		    metrics='auc', early_stopping_rounds=early_stopping_rounds, show_progress=False)
+		alg.set_params(n_estimators=cvresult.shape[0])
 
-    return
+	# Fit the algorithm on the data
+	alg.fit(X_train, y_train, eval_metric='auc')
+	    
+	# Predict training set:
+	y_pred = alg.predict(X_train)
+	y_predprob = alg.predict_proba(X_train)[:,1]
+	    
+	# Print model report:
+	print "\nModel Report"
+	print "Accuracy : %.4g" % metrics.accuracy_score(y_train, y_pred)
+	print "AUC Score (Train): %f" % metrics.roc_auc_score(y_pred, y_predprob)
+
+	# feat_imp = pd.Series(alg.booster().get_fscore()).sort_values(ascending=False)
+	# feat_imp.plot(kind='bar', title='Feature Importances')
+	# plt.ylabel('Feature Importance Score')
+
+	return

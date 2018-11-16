@@ -10,7 +10,7 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 
 # Training helper
 from sklearn.model_selection import GridSearchCV			# Grid search for optimal params
-from xgboost import xgb
+import xgboost as xgb
 
 # Metrics
 from sklearn.metrics import accuracy_score

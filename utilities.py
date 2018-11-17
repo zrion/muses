@@ -96,7 +96,8 @@ def modelfit_XGB(alg, X_train, y_train, useTrainCV=True, cv_folds=5, early_stopp
 		xgb_param['num_class'] = 16
 		xgtrain 	= xgb.DMatrix(X_train, label=y_train)
 		cvresult 	= xgb.cv(xgb_param, xgtrain, num_boost_round=alg.get_params()['n_estimators'], nfold=cv_folds,
-		    metrics='mlogloss', early_stopping_rounds=early_stopping_rounds)
+		    metrics='mlogloss', early_stopping_rounds=early_stopping_rounds, verbose_eval=True)
+		print (cvresult)
 		alg.set_params(n_estimators=cvresult.shape[0])
 
 	# Fit the algorithm on the data
@@ -104,12 +105,12 @@ def modelfit_XGB(alg, X_train, y_train, useTrainCV=True, cv_folds=5, early_stopp
 	    
 	# Predict training set:
 	y_pred = alg.predict(X_train)
-	y_predprob = alg.predict_proba(X_train)[:,1]
+	y_predprob = alg.predict_proba(X_train)
 	    
 	# Print model report:
-	print "\nModel Report"
-	print "Accuracy : %.4g" % metrics.accuracy_score(y_train, y_pred)
-	print "Log loss (Train): %f" % metrics.log_loss(y_pred, y_predprob)
+	print ("\nModel Report")
+	print ("Accuracy : %.4g" % accuracy_score(y_train, y_pred))
+	print ("Log loss (Train): %f" % log_loss(y_train, y_predprob))
 
 	# feat_imp = pd.Series(alg.booster().get_fscore()).sort_values(ascending=False)
 	# feat_imp.plot(kind='bar', title='Feature Importances')

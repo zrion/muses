@@ -113,7 +113,7 @@ def main():
 		train_f1_score = f1_score(y_train, y_pred_train, average='micro')
 		test_accuracy = accuracy_score(y_test, y_pred_test)*100
 		test_balanced_accuracy = balanced_accuracy_score(y_test, y_pred_test)*100
-		test_f1_score = f1_score(y_test, y_pred_train, average='micro')
+		test_f1_score = f1_score(y_test, y_pred_test, average='micro')
 
 		print ("Result for n_estimator", n_estimators, "with", 	X_train.shape[1], "features" )
 		print ("Training accuracy:", str(train_accuracy))

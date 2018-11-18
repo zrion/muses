@@ -103,10 +103,14 @@ def main():
 	f = open(file, 'w') 
 	# For extratrees
 	for n_estimators in param_extratrees['n_estimators']:
-		clf = ExtraTreesClassifier(n_estimators=n_estimators, max_depth=3, n_job=-1)
+		clf = ExtraTreesClassifier(n_estimators=n_estimators, max_depth=3, n_jobs=-1)
 		clf.fit(X_train, y_train)
 		y_pred_train = clf.predict(X_train)
 		y_pred_test = clf.predict(X_test)
+
+		train_accuracy = accuracy_score(y_train, y_pred_train)*100
+		train_balanced_accuracy = balanced_accuracy_score(y_test, y_pred_test)*100
+		train_f1_score = f1_score(y_train, y_pred_train)
 
 		print ("Result for n_estimator", n_estimators)
 		print ("Training accuracy:", accuracy_score(y_train, y_pred_train)*100)
@@ -117,14 +121,14 @@ def main():
 		print ("Test F1 score:", f1_score(y_test, y_pred_test))
 
 		f.write("Result for n_estimator " + n_estimators + "\n")
-		f.write("Training accuracy: "+ str(accuracy_score(y_train, y_pred_train)*100))
-		f.write("Training balanced accuracy: " + str(balanced_accuracy_score(y_train, y_pred_train)*100))
-		f.write("Training F1 score: " + str(f1_score(y_train, y_pred_train)))
-		f.write("Test accuracy:" + str(accuracy_score(y_test, y_pred_test)*100))
-		f.write("Test balanced accuracy: " + str(balanced_accuracy_score(y_test, y_pred_test)*100))
-		f.write("Test F1 score: " + str(f1_score(y_test, y_pred_test)))
+		f.write("Training accuracy: "+ str(accuracy_score(y_train, y_pred_train)*100)+"\n")
+		f.write("Training balanced accuracy: " + str(balanced_accuracy_score(y_train, y_pred_train)*100)+"\n")
+		f.write("Training F1 score: " + str(f1_score(y_train, y_pred_train))+"\n")
+		f.write("Test accuracy:" + str(accuracy_score(y_test, y_pred_test)*100)+"\n")
+		f.write("Test balanced accuracy: " + str(balanced_accuracy_score(y_test, y_pred_test)*100)+"\n")
+		f.write("Test F1 score: " + str(f1_score(y_test, y_pred_test))+"\n")
 
-		f.close()
+		f.write(">-------------------------------------------------<\n")
 
 	return
 

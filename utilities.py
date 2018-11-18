@@ -7,6 +7,7 @@ import pandas as pd
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 from sklearn.model_selection import KFold 
 from sklearn.metrics import accuracy_score, balanced_accuracy_score, confusion_matrix, log_loss, f1_score
+from sklearn.metrics import make_scorer
 
 # Training helper
 from sklearn.model_selection import GridSearchCV			# Grid search for optimal params

@@ -85,19 +85,46 @@ def main():
 	#  'min_child_weight':range(1,6,2)
 	# }
 
+	# XGBClassifier(learning_rate =0.1, n_estimators=229, max_depth=5,
+	#  min_child_weight=1, gamma=0, subsample=0.8, colsample_bytree=0.8,
+	#  objective= 'multi_softmax', scale_pos_weight=1, seed=50)
+
 	param_test2 = {
 	 'max_depth':[4,5,6],
 	 'min_child_weight':[4,5,6]
 	}
-	gsearch1 = GridSearchCV(estimator = XGBClassifier(learning_rate =0.1, n_estimators=229, max_depth=5,
-	 min_child_weight=1, gamma=0, subsample=0.8, colsample_bytree=0.8,
-	 objective= 'multi_softmax', scale_pos_weight=1, seed=50), 
-	 param_grid = param_test2, scoring='neg_log_loss',n_jobs=-1,iid=False, cv=5, verbose=100)
-	gsearch1.fit(X_train, y_train)
-	print (gsearch1.cv_results_)
-	print (gsearch1.best_params_)
-	print (gsearch1.best_score_)	
 
+	# ExtraTrees param
+	param_extratrees = {
+		'n_estimators': [100, 300, 500, 1000, 2000],
+		# 'max_depth': [3, 5, 7, 9]
+	}
+	file = dirname(sys.argv[0]) + "/results/extra_trees_n_estimators.txt"
+	f = open(file, 'w') 
+	# For extratrees
+	for n_estimators in param_extratrees['n_estimators']
+		clf = ExtraTreesClassifier(n_estimators=n_estimators, max_depth=3, n_job=-1)
+		clf.fit(X_train, y_train)
+		y_pred_train = clf.predict(X_train)
+		y_pred_test = clf.predict(X_test)
+
+		print ("Result for n_estimator", n_estimators)
+		print ("Training accuracy:", accuracy_score(y_train, y_pred_train)*100)
+		print ("Training balanced accuracy:", balanced_accuracy_score(y_train, y_pred_train)*100)
+		print ("Training F1 score:", f1_score(y_train, y_pred_train))
+		print ("Test accuracy:", accuracy_score(y_test, y_pred_test)*100)
+		print ("Test balanced accuracy:", balanced_accuracy_score(y_test, y_pred_test)*100)
+		print ("Test F1 score:", f1_score(y_test, y_pred_test))
+
+		f.write("Result for n_estimator " + n_estimators + "\n")
+		f.write("Training accuracy: "+ str(accuracy_score(y_train, y_pred_train)*100))
+		f.write("Training balanced accuracy: " + str(balanced_accuracy_score(y_train, y_pred_train)*100))
+		f.write("Training F1 score: " + str(f1_score(y_train, y_pred_train)))
+		f.write("Test accuracy:" + str(accuracy_score(y_test, y_pred_test)*100))
+		f.write("Test balanced accuracy: " + str(balanced_accuracy_score(y_test, y_pred_test)*100))
+		f.write("Test F1 score: " + str(f1_score(y_test, y_pred_test)))
+
+		f.close()
 
 	return
 

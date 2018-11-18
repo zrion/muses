@@ -6,7 +6,7 @@ import pandas as pd
 # Evaluation helper
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 from sklearn.model_selection import KFold 
-from sklearn.metrics import accuracy_score, confusion_matrix, log_loss
+from sklearn.metrics import accuracy_score, balanced_accuracy_score, confusion_matrix, log_loss, f1_score
 
 # Training helper
 from sklearn.model_selection import GridSearchCV			# Grid search for optimal params
@@ -15,6 +15,7 @@ import xgboost as xgb
 # Preprocessing
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.utils import shuffle
+from imblearn.over_sampling import SMOTE					# Handle imbalanced set
 
 # Metrics
 from sklearn.metrics import accuracy_score

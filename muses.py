@@ -123,7 +123,7 @@ def main():
 		print ("Test balanced accuracy:", str(test_balanced_accuracy))
 		print ("Test F1 score:", str(test_f1_score))
 
-		f.write("Result for n_estimator " + n_estimators + " with " + str(X_train_shape[1] + " features\n"))
+		f.write("Result for n_estimator " + n_estimators + " with " + str(X_train_shape[1]) + " features\n")
 		f.write("Training accuracy: "+ str(train_accuracy)+"\n")
 		f.write("Training balanced accuracy: " + str(train_balanced_accuracy)+"\n")
 		f.write("Training F1 score: " + str(train_f1_score)+"\n")

@@ -102,7 +102,7 @@ def main():
 	file = dirname(sys.argv[0]) + "/results/extra_trees_n_estimators.txt"
 	f = open(file, 'w') 
 	# For extratrees
-	for n_estimators in param_extratrees['n_estimators']
+	for n_estimators in param_extratrees['n_estimators']:
 		clf = ExtraTreesClassifier(n_estimators=n_estimators, max_depth=3, n_job=-1)
 		clf.fit(X_train, y_train)
 		y_pred_train = clf.predict(X_train)

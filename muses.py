@@ -99,11 +99,11 @@ def main():
 		'n_estimators': [100, 300, 500, 1000, 2000, 3000],
 		# 'max_depth': [3, 5, 7, 9]
 	}
-	file = dirname(sys.argv[0]) + "/results/extra_trees_n_estimators_depth_9.txt"
+	file = dirname(sys.argv[0]) + "/results/extra_trees_n_estimators_depth_11.txt"
 	f = open(file, 'w') 
 	# For extratrees
 	for n_estimators in param_extratrees['n_estimators']:
-		clf = ExtraTreesClassifier(n_estimators=n_estimators, max_depth=9, n_jobs=-1)
+		clf = ExtraTreesClassifier(n_estimators=n_estimators, max_depth=11, n_jobs=-1)
 		clf.fit(X_train, y_train)
 		y_pred_train = clf.predict(X_train)
 		y_pred_test = clf.predict(X_test)

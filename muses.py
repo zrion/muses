@@ -96,7 +96,7 @@ def main():
 
 	# ExtraTrees param
 	param_extratrees = {
-		'n_estimators': [100, 300, 500, 1000, 2000],
+		'n_estimators': [100, 300, 500, 1000, 2000, 3000],
 		# 'max_depth': [3, 5, 7, 9]
 	}
 	file = dirname(sys.argv[0]) + "/results/extra_trees_n_estimators_depth_5.txt"
@@ -133,6 +133,7 @@ def main():
 
 		f.write(">-------------------------------------------------<\n")
 
+	f.close()
 	return
 
 

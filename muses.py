@@ -109,24 +109,27 @@ def main():
 		y_pred_test = clf.predict(X_test)
 
 		train_accuracy = accuracy_score(y_train, y_pred_train)*100
-		train_balanced_accuracy = balanced_accuracy_score(y_test, y_pred_test)*100
+		train_balanced_accuracy = balanced_accuracy_score(y_train, y_pred_train)*100
 		train_f1_score = f1_score(y_train, y_pred_train)
+		test_accuracy = accuracy_score(y_test, y_pred_test)*100
+		test_balanced_accuracy = balanced_accuracy_score(y_test, y_pred_test)*100
+		test_f1_score = f1_score(y_test, y_pred_train)
 
-		print ("Result for n_estimator", n_estimators)
-		print ("Training accuracy:", accuracy_score(y_train, y_pred_train)*100)
-		print ("Training balanced accuracy:", balanced_accuracy_score(y_train, y_pred_train)*100)
-		print ("Training F1 score:", f1_score(y_train, y_pred_train))
-		print ("Test accuracy:", accuracy_score(y_test, y_pred_test)*100)
-		print ("Test balanced accuracy:", balanced_accuracy_score(y_test, y_pred_test)*100)
-		print ("Test F1 score:", f1_score(y_test, y_pred_test))
+		print ("Result for n_estimator", n_estimators, "with", 	X_train.shape[1], "features" )
+		print ("Training accuracy:", str(train_accuracy))
+		print ("Training balanced accuracy:", str(train_balanced_accuracy))
+		print ("Training F1 score:", str(train_f1_score))
+		print ("Test accuracy:", str(test_accuracy))
+		print ("Test balanced accuracy:", str(test_balanced_accuracy))
+		print ("Test F1 score:", str(test_f1_score))
 
-		f.write("Result for n_estimator " + n_estimators + "\n")
-		f.write("Training accuracy: "+ str(accuracy_score(y_train, y_pred_train)*100)+"\n")
-		f.write("Training balanced accuracy: " + str(balanced_accuracy_score(y_train, y_pred_train)*100)+"\n")
-		f.write("Training F1 score: " + str(f1_score(y_train, y_pred_train))+"\n")
-		f.write("Test accuracy:" + str(accuracy_score(y_test, y_pred_test)*100)+"\n")
-		f.write("Test balanced accuracy: " + str(balanced_accuracy_score(y_test, y_pred_test)*100)+"\n")
-		f.write("Test F1 score: " + str(f1_score(y_test, y_pred_test))+"\n")
+		f.write("Result for n_estimator " + n_estimators + " with " + str(X_train_shape[1] + " features\n")
+		f.write("Training accuracy: "+ str(train_accuracy)+"\n")
+		f.write("Training balanced accuracy: " + str(train_balanced_accuracy)+"\n")
+		f.write("Training F1 score: " + str(train_f1_score)+"\n")
+		f.write("Test accuracy:" + str(test_accuracy)+"\n")
+		f.write("Test balanced accuracy: " + str(test_balanced_accuracy)+"\n")
+		f.write("Test F1 score: " + str(test_f1_score)+"\n")
 
 		f.write(">-------------------------------------------------<\n")
 

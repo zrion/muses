@@ -99,11 +99,11 @@ def main():
 		'n_estimators': [100, 300, 500, 1000, 2000],
 		# 'max_depth': [3, 5, 7, 9]
 	}
-	file = dirname(sys.argv[0]) + "/results/extra_trees_n_estimators.txt"
+	file = dirname(sys.argv[0]) + "/results/extra_trees_n_estimators_depth_5.txt"
 	f = open(file, 'w') 
 	# For extratrees
 	for n_estimators in param_extratrees['n_estimators']:
-		clf = ExtraTreesClassifier(n_estimators=n_estimators, max_depth=3, n_jobs=-1)
+		clf = ExtraTreesClassifier(n_estimators=n_estimators, max_depth=5, n_jobs=-1)
 		clf.fit(X_train, y_train)
 		y_pred_train = clf.predict(X_train)
 		y_pred_test = clf.predict(X_test)
@@ -123,7 +123,7 @@ def main():
 		print ("Test balanced accuracy:", str(test_balanced_accuracy))
 		print ("Test F1 score:", str(test_f1_score))
 
-		f.write("Result for n_estimator " + n_estimators + " with " + str(X_train_shape[1]) + " features\n")
+		f.write("Result for n_estimator " + str(n_estimators) + " with " + str(X_train.shape[1]) + " features\n")
 		f.write("Training accuracy: "+ str(train_accuracy)+"\n")
 		f.write("Training balanced accuracy: " + str(train_balanced_accuracy)+"\n")
 		f.write("Training F1 score: " + str(train_f1_score)+"\n")

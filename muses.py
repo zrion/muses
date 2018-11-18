@@ -80,16 +80,23 @@ def main():
 	# score = accuracy_score(y_test, y_pred)
 	# print('Accuracy: {:.2%}'.format(score))
 
-	param_test1 = {
-	 'max_depth':range(3,10,2),
-	 'min_child_weight':range(1,6,2)
+	# param_test1 = {
+	#  'max_depth':range(3,10,2),
+	#  'min_child_weight':range(1,6,2)
+	# }
+
+	param_test2 = {
+	 'max_depth':[4,5,6],
+	 'min_child_weight':[4,5,6]
 	}
 	gsearch1 = GridSearchCV(estimator = XGBClassifier(learning_rate =0.1, n_estimators=229, max_depth=5,
 	 min_child_weight=1, gamma=0, subsample=0.8, colsample_bytree=0.8,
 	 objective= 'multi_softmax', scale_pos_weight=1, seed=50), 
-	 param_grid = param_test1, scoring='neg_log_loss',n_jobs=-1,iid=False, cv=5, verbose=100)
+	 param_grid = param_test2, scoring='neg_log_loss',n_jobs=-1,iid=False, cv=5, verbose=100)
 	gsearch1.fit(X_train, y_train)
-	gsearch1.grid_scores_, gsearch1.best_params_, gsearch1.best_score_	
+	print (gsearch1.cv_results_)
+	print (gsearch1.best_params_)
+	print (gsearch1.best_score_)	
 
 
 	return

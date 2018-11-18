@@ -106,7 +106,7 @@ def main():
 	scoring = {'Balanced_accuracy': make_scorer(balanced_accuracy_score), 'Accuracy': make_scorer(accuracy_score)}
 
 	estimator = ExtraTreesClassifier(n_estimators=100, max_depth=5, n_jobs=-1)
-	gsearch= GridSearchCV(estimator = estimator, param_grid = param_extratrees, scoring=scoring,n_jobs=-1,iid=False, cv=5, verbose=100)
+	gsearch= GridSearchCV(estimator = estimator, param_grid = param_extratrees, scoring=scoring,refit='Balanced_accuracy',n_jobs=-1,iid=False, cv=5, verbose=100)
 	gsearch.fit(X_train, y_train)
 	print (gsearch.cv_results_)
 	print (gsearch.best_params_)

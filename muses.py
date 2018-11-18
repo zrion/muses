@@ -96,43 +96,60 @@ def main():
 
 	# ExtraTrees param
 	param_extratrees = {
-		'n_estimators': [100, 300, 500, 1000, 2000, 3000],
-		# 'max_depth': [3, 5, 7, 9]
+		'n_estimators': [100, 500, 1000, 2000, 3000],
+		'max_depth': range(3, 18, 2)
 	}
-	file = dirname(sys.argv[0]) + "/results/extra_trees_n_estimators_depth_15.txt"
-	f = open(file, 'w') 
+
+	file = dirname(sys.argv[0]) + "/results/extra_trees_training_result.txt"
+	f = open(file, 'w')
+
+	scoring = {'Balanced_accuracy': make_scorer(balanced_accuracy_score), 'Accuracy': make_scorer(accuracy_score)}
+
+	estimator = ExtraTreesClassifier(n_estimators=100, max_depth=5, n_jobs=-1)
+	gsearch= GridSearchCV(estimator = estimator, param_grid = param_extratrees, scoring=scoring,n_jobs=-1,iid=False, cv=5, verbose=100)
+	gsearch.fit(X_train, y_train)
+	print (gsearch.cv_results_)
+	print (gsearch.best_params_)
+	print (gsearch.best_score_)
+	print (gsearch.best_estimator_)
+
+	f.write(str(gsearch.cv_results_))
+	f.write(str(gsearch.best_params_))
+	f.write(str(gsearch.best_score_))
+	f.write(str(gsearch.best_estimator_))
+
 	# For extratrees
-	for n_estimators in param_extratrees['n_estimators']:
-		clf = ExtraTreesClassifier(n_estimators=n_estimators, max_depth=15, n_jobs=-1)
-		clf.fit(X_train, y_train)
-		y_pred_train = clf.predict(X_train)
-		y_pred_test = clf.predict(X_test)
+	# for n_estimators in param_extratrees['n_estimators']:
+	# 	clf = ExtraTreesClassifier(n_estimators=n_estimators, max_depth=15, n_jobs=-1)
+	# 	clf.fit(X_train, y_train)
+	# 	y_pred_train = clf.predict(X_train)
+	# 	y_pred_test = clf.predict(X_test)
 
-		train_accuracy = accuracy_score(y_train, y_pred_train)*100
-		train_balanced_accuracy = balanced_accuracy_score(y_train, y_pred_train)*100
-		train_f1_score = f1_score(y_train, y_pred_train, average='micro')
-		test_accuracy = accuracy_score(y_test, y_pred_test)*100
-		test_balanced_accuracy = balanced_accuracy_score(y_test, y_pred_test)*100
-		test_f1_score = f1_score(y_test, y_pred_test, average='micro')
+	# 	train_accuracy = accuracy_score(y_train, y_pred_train)*100
+	# 	train_balanced_accuracy = balanced_accuracy_score(y_train, y_pred_train)*100
+	# 	train_f1_score = f1_score(y_train, y_pred_train, average='micro')
+	# 	test_accuracy = accuracy_score(y_test, y_pred_test)*100
+	# 	test_balanced_accuracy = balanced_accuracy_score(y_test, y_pred_test)*100
+	# 	test_f1_score = f1_score(y_test, y_pred_test, average='micro')
 
-		print ("Result for n_estimator", n_estimators, "with", 	X_train.shape[1], "features" )
-		print ("Training accuracy:", str(train_accuracy))
-		print ("Training balanced accuracy:", str(train_balanced_accuracy))
-		print ("Training F1 score:",	 str(train_f1_score))
-		print ("Test accuracy:", str(test_accuracy))
-		print ("Test balanced accuracy:", str(test_balanced_accuracy))
-		print ("Test F1 score:", str(test_f1_score))
-		print (">--------------------------------------------<")
+	# 	print ("Result for n_estimator", n_estimators, "with", 	X_train.shape[1], "features" )
+	# 	print ("Training accuracy:", str(train_accuracy))
+	# 	print ("Training balanced accuracy:", str(train_balanced_accuracy))
+	# 	print ("Training F1 score:",	 str(train_f1_score))
+	# 	print ("Test accuracy:", str(test_accuracy))
+	# 	print ("Test balanced accuracy:", str(test_balanced_accuracy))
+	# 	print ("Test F1 score:", str(test_f1_score))
+	# 	print (">--------------------------------------------<")
 
-		f.write("Result for n_estimator " + str(n_estimators) + " with " + str(X_train.shape[1]) + " features\n")
-		f.write("Training accuracy: "+ str(train_accuracy)+"\n")
-		f.write("Training balanced accuracy: " + str(train_balanced_accuracy)+"\n")
-		f.write("Training F1 score: " + str(train_f1_score)+"\n")
-		f.write("Test accuracy:" + str(test_accuracy)+"\n")
-		f.write("Test balanced accuracy: " + str(test_balanced_accuracy)+"\n")
-		f.write("Test F1 score: " + str(test_f1_score)+"\n")
+	# 	f.write("Result for n_estimator " + str(n_estimators) + " with " + str(X_train.shape[1]) + " features\n")
+	# 	f.write("Training accuracy: "+ str(train_accuracy)+"\n")
+	# 	f.write("Training balanced accuracy: " + str(train_balanced_accuracy)+"\n")
+	# 	f.write("Training F1 score: " + str(train_f1_score)+"\n")
+	# 	f.write("Test accuracy:" + str(test_accuracy)+"\n")
+	# 	f.write("Test balanced accuracy: " + str(test_balanced_accuracy)+"\n")
+	# 	f.write("Test F1 score: " + str(test_f1_score)+"\n")
 
-		f.write(">-------------------------------------------------<\n")
+	# 	f.write(">-------------------------------------------------<\n")
 
 	f.close()
 	return

@@ -1,0 +1,48 @@
+Result for n_estimator 100 with 518 features
+Training accuracy: 84.25358899708864
+Training balanced accuracy: 58.06759036228842
+Training F1 score: 0.8425358899708864
+Test accuracy:56.16012436844151
+Test balanced accuracy: 26.883553759000932
+Test F1 score: 0.5616012436844151
+>-------------------------------------------------<
+Result for n_estimator 300 with 518 features
+Training accuracy: 84.37907840578255
+Training balanced accuracy: 58.295230597265046
+Training F1 score: 0.8437907840578255
+Test accuracy:55.53828216090167
+Test balanced accuracy: 26.013563450908872
+Test F1 score: 0.5553828216090168
+>-------------------------------------------------<
+Result for n_estimator 500 with 518 features
+Training accuracy: 84.57484188334504
+Training balanced accuracy: 58.3097534277792
+Training F1 score: 0.8457484188334504
+Test accuracy:55.49941702293043
+Test balanced accuracy: 26.247145954119016
+Test F1 score: 0.5549941702293043
+>-------------------------------------------------<
+Result for n_estimator 1000 with 518 features
+Training accuracy: 84.29876518421845
+Training balanced accuracy: 58.292707813251646
+Training F1 score: 0.8429876518421845
+Test accuracy:55.34395647104547
+Test balanced accuracy: 25.965008214097807
+Test F1 score: 0.5534395647104547
+>-------------------------------------------------<
+Result for n_estimator 2000 with 518 features
+Training accuracy: 84.64009637586588
+Training balanced accuracy: 58.51824841264711
+Training F1 score: 0.8464009637586588
+Test accuracy:55.53828216090167
+Test balanced accuracy: 26.128447495607798
+Test F1 score: 0.5553828216090168
+>-------------------------------------------------<
+Result for n_estimator 3000 with 518 features
+Training accuracy: 84.59492018873607
+Training balanced accuracy: 58.22944183593546
+Training F1 score: 0.8459492018873608
+Test accuracy:55.38282160901671
+Test balanced accuracy: 26.201505785987074
+Test F1 score: 0.5538282160901671
+>-------------------------------------------------<

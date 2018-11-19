@@ -174,8 +174,8 @@ def main():
 
 	# For neural network, 1 hidden layer
 	param_nn_1 = {
-		'hidden_layer_sizes': [(100, ), (150, ), (200, )]
-		'alpha': [0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000]
+		'hidden_layer_sizes': [(100, ), (150, ), (200, )],
+		'alpha': [0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000],
 		'activation':['relu', 'tanh', 'logistic', 'identity']  				# Inverse of lambda
 	}
 
@@ -201,8 +201,8 @@ def main():
 
 	# For neural network, 2 hidden layer
 	param_nn_2 = {
-		'hidden_layer_sizes': [(100, 100), (150, 150), (200, 200), (150, 200), (100, 150)]
-		'alpha': [0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000]
+		'hidden_layer_sizes': [(100, 100), (150, 150), (200, 200), (150, 200), (100, 150)],
+		'alpha': [0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000],
 		'activation':['relu', 'tanh', 'logistic', 'identity']  				# Inverse of lambda
 	}
 

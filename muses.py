@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from os import listdir
 from os.path import isfile, join, dirname, basename, splitext, realpath
-import sys, re, os
+import sys, re, os, json
 import pandas as pd
 import numpy as np
 import argparse
@@ -100,58 +100,155 @@ def main():
 		'max_depth': range(3, 18, 2)
 	}
 
-	file = dirname(sys.argv[0]) + "/results/extra_trees_training_result.txt"
+	# file = dirname(sys.argv[0]) + "/results/extra_trees_training_result.txt"
+	# f = open(file, 'w')
+
+	# scoring = {'Balanced_accuracy': make_scorer(balanced_accuracy_score), 'Accuracy': make_scorer(accuracy_score)}
+
+	# estimator = ExtraTreesClassifier(n_estimators=100, max_depth=5, n_jobs=-1)
+	# gsearch= GridSearchCV(estimator = estimator, param_grid = param_extratrees, scoring=scoring,refit='Balanced_accuracy',n_jobs=-1,iid=False, cv=5, verbose=100)
+	# gsearch.fit(X_train, y_train)
+	# print (gsearch.cv_results_)
+	# print (gsearch.best_params_)
+	# print (gsearch.best_score_)
+	# print (gsearch.best_estimator_)
+
+	# f.write(str(gsearch.cv_results_))
+	# f.write(str(gsearch.best_params_))
+	# f.write(str(gsearch.best_score_))
+	# f.write(str(gsearch.best_estimator_))
+
+	# f.close()
+
+	# For softmax regression
+	# Softmax param
+	param_softmax = {
+		'penalty': ['l1', 'l2'],
+		'C': [1e-4, 1e-3, 0.01, 0.1, 1, 10, 100, 1000]   				# Inverse of lambda
+	}
+
+	file = dirname(sys.argv[0]) + "/results/softmax_training_result_all_features.txt"
 	f = open(file, 'w')
 
 	scoring = {'Balanced_accuracy': make_scorer(balanced_accuracy_score), 'Accuracy': make_scorer(accuracy_score)}
 
-	estimator = ExtraTreesClassifier(n_estimators=100, max_depth=5, n_jobs=-1)
-	gsearch= GridSearchCV(estimator = estimator, param_grid = param_extratrees, scoring=scoring,refit='Balanced_accuracy',n_jobs=-1,iid=False, cv=5, verbose=100)
+	estimator = LogisticRegression(penalty='l2', C=1, solver='sag', multi_class='multinomial')
+	gsearch= GridSearchCV(estimator = estimator, param_grid = param_softmax, scoring=scoring,refit='Balanced_accuracy',n_jobs=-1,iid=False, cv=5, verbose=10)
 	gsearch.fit(X_train, y_train)
 	print (gsearch.cv_results_)
 	print (gsearch.best_params_)
 	print (gsearch.best_score_)
 	print (gsearch.best_estimator_)
-
-	f.write(str(gsearch.cv_results_))
-	f.write(str(gsearch.best_params_))
-	f.write(str(gsearch.best_score_))
+	f.write(str(gsearch.cv_results_) + "\n")
+	f.write(str(gsearch.best_params_) + "\n")
+	f.write(str(gsearch.best_score_) + "\n")
 	f.write(str(gsearch.best_estimator_))
-
-	# For extratrees
-	# for n_estimators in param_extratrees['n_estimators']:
-	# 	clf = ExtraTreesClassifier(n_estimators=n_estimators, max_depth=15, n_jobs=-1)
-	# 	clf.fit(X_train, y_train)
-	# 	y_pred_train = clf.predict(X_train)
-	# 	y_pred_test = clf.predict(X_test)
-
-	# 	train_accuracy = accuracy_score(y_train, y_pred_train)*100
-	# 	train_balanced_accuracy = balanced_accuracy_score(y_train, y_pred_train)*100
-	# 	train_f1_score = f1_score(y_train, y_pred_train, average='micro')
-	# 	test_accuracy = accuracy_score(y_test, y_pred_test)*100
-	# 	test_balanced_accuracy = balanced_accuracy_score(y_test, y_pred_test)*100
-	# 	test_f1_score = f1_score(y_test, y_pred_test, average='micro')
-
-	# 	print ("Result for n_estimator", n_estimators, "with", 	X_train.shape[1], "features" )
-	# 	print ("Training accuracy:", str(train_accuracy))
-	# 	print ("Training balanced accuracy:", str(train_balanced_accuracy))
-	# 	print ("Training F1 score:",	 str(train_f1_score))
-	# 	print ("Test accuracy:", str(test_accuracy))
-	# 	print ("Test balanced accuracy:", str(test_balanced_accuracy))
-	# 	print ("Test F1 score:", str(test_f1_score))
-	# 	print (">--------------------------------------------<")
-
-	# 	f.write("Result for n_estimator " + str(n_estimators) + " with " + str(X_train.shape[1]) + " features\n")
-	# 	f.write("Training accuracy: "+ str(train_accuracy)+"\n")
-	# 	f.write("Training balanced accuracy: " + str(train_balanced_accuracy)+"\n")
-	# 	f.write("Training F1 score: " + str(train_f1_score)+"\n")
-	# 	f.write("Test accuracy:" + str(test_accuracy)+"\n")
-	# 	f.write("Test balanced accuracy: " + str(test_balanced_accuracy)+"\n")
-	# 	f.write("Test F1 score: " + str(test_f1_score)+"\n")
-
-	# 	f.write(">-------------------------------------------------<\n")
-
 	f.close()
+
+	print(">..........................................................")
+	# For svm RBF, linear
+	param_SVM = {
+		'kernel': ['rbf', 'linear'],
+		'C': [1e-4, 1e-3, 0.01, 0.1, 1, 10, 100, 1000]   				# Inverse of lambda
+	}
+
+	file = dirname(sys.argv[0]) + "/results/SVM_training_result_all_features.txt"
+	f = open(file, 'w')
+
+	scoring = {'Balanced_accuracy': make_scorer(balanced_accuracy_score), 'Accuracy': make_scorer(accuracy_score)}
+
+	estimator = SVC(C=1, kernel='rbf', tol=1e-4)
+	gsearch= GridSearchCV(estimator = estimator, param_grid = param_SVM, scoring=scoring,refit='Balanced_accuracy',n_jobs=-1,iid=False, cv=5, verbose=10)
+	gsearch.fit(X_train, y_train)
+	print (gsearch.cv_results_)
+	print (gsearch.best_params_)
+	print (gsearch.best_score_)
+	print (gsearch.best_estimator_)
+	f.write(str(gsearch.cv_results_) + "\n")
+	f.write(str(gsearch.best_params_) + "\n")
+	f.write(str(gsearch.best_score_) + "\n")
+	f.write(str(gsearch.best_estimator_))
+	f.close()
+
+	print(">..........................................................")
+
+	# For neural network, 1 hidden layer
+	param_nn_1 = {
+		'hidden_layer_sizes': [(100, ), (150, ), (200, )]
+		'alpha': [0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000]
+		'activation':['relu', 'tanh', 'logistic', 'identity']  				# Inverse of lambda
+	}
+
+	file = dirname(sys.argv[0]) + "/results/neural_network_1_training_result_all_features.txt"
+	f = open(file, 'w')
+
+	scoring = {'Balanced_accuracy': make_scorer(balanced_accuracy_score), 'Accuracy': make_scorer(accuracy_score)}
+
+	estimator = MLPClassifier(hidden_layer_sizes=(100,), activation='relu', alpha=0.0001, learning_rate_init=1e-4, verbose=True) # Batch size auto: 200 samples
+	gsearch= GridSearchCV(estimator = estimator, param_grid = param_nn_1, scoring=scoring,refit='Balanced_accuracy',n_jobs=-1,iid=False, cv=5, verbose=10)
+	gsearch.fit(X_train, y_train)
+	print (gsearch.cv_results_)
+	print (gsearch.best_params_)
+	print (gsearch.best_score_)
+	print (gsearch.best_estimator_)
+	f.write(str(gsearch.cv_results_) + "\n")
+	f.write(str(gsearch.best_params_) + "\n")
+	f.write(str(gsearch.best_score_) + "\n")
+	f.write(str(gsearch.best_estimator_))
+	f.close()
+
+	print(">..........................................................")
+
+	# For neural network, 2 hidden layer
+	param_nn_2 = {
+		'hidden_layer_sizes': [(100, 100), (150, 150), (200, 200), (150, 200), (100, 150)]
+		'alpha': [0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000]
+		'activation':['relu', 'tanh', 'logistic', 'identity']  				# Inverse of lambda
+	}
+
+	file = dirname(sys.argv[0]) + "/results/neural_network_2_training_result_all_features.txt"
+	f = open(file, 'w')
+
+	scoring = {'Balanced_accuracy': make_scorer(balanced_accuracy_score), 'Accuracy': make_scorer(accuracy_score)}
+
+	estimator = MLPClassifier(hidden_layer_sizes=(100,100), activation='relu', alpha=0.0001, learning_rate_init=1e-4, verbose=True) # Batch size auto: 200 samples
+	gsearch= GridSearchCV(estimator = estimator, param_grid = param_nn_2, scoring=scoring,refit='Balanced_accuracy',n_jobs=-1,iid=False, cv=5, verbose=10)
+	gsearch.fit(X_train, y_train)
+	print (gsearch.cv_results_)
+	print (gsearch.best_params_)
+	print (gsearch.best_score_)
+	print (gsearch.best_estimator_)
+	f.write(str(gsearch.cv_results_) + "\n")
+	f.write(str(gsearch.best_params_) + "\n")
+	f.write(str(gsearch.best_score_) + "\n")
+	f.write(str(gsearch.best_estimator_))
+	f.close()
+
+	print(">..........................................................")
+
+	# For decision tree
+	param_dt = {
+		'max_depth': range(5, 18, 2)
+	}
+
+	file = dirname(sys.argv[0]) + "/results/decision_tree_training_result_all_features.txt"
+	f = open(file, 'w')
+
+	scoring = {'Balanced_accuracy': make_scorer(balanced_accuracy_score), 'Accuracy': make_scorer(accuracy_score)}
+
+	estimator = DecisionTreeClassifier(max_depth=5)																																																																																																																																																																																																																																																																																																																																																																																																																																																																																			(hidden_layer_sizes=(100,100), activation='relu', alpha=0.0001, learning_rate_init=1e-4, verbose=True) # Batch size auto: 200 samples
+	gsearch= GridSearchCV(estimator = estimator, param_grid = param_dt, scoring=scoring,refit='Balanced_accuracy',n_jobs=-1,iid=False, cv=5, verbose=10)
+	gsearch.fit(X_train, y_train)
+	print (gsearch.cv_results_)																																																											
+	print (gsearch.best_params_)
+	print (gsearch.best_score_)
+	print (gsearch.best_estimator_)
+	f.write(str(gsearch.cv_results_) + "\n")
+	f.write(str(gsearch.best_params_) + "\n")
+	f.write(str(gsearch.best_score_) + "\n")																																																																																																																																																																																																																																						
+	f.write(str(gsearch.best_estimator_))
+	f.close()																			
+
 	return
 
 

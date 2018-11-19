@@ -123,7 +123,6 @@ def main():
 	# For softmax regression
 	# Softmax param
 	param_softmax = {
-		'penalty': ['l1', 'l2'],
 		'C': [1e-4, 1e-3, 0.01, 0.1, 1, 10, 100, 1000]   				# Inverse of lambda
 	}
 
@@ -132,7 +131,7 @@ def main():
 
 	scoring = {'Balanced_accuracy': make_scorer(balanced_accuracy_score), 'Accuracy': make_scorer(accuracy_score)}
 
-	estimator = LogisticRegression(penalty='l2', C=1, solver='sag', multi_class='multinomial')
+	estimator = LogisticRegression(penalty='l2', C=1, solver='sag', multi_class='multinomial')		# Using l2 reg, sag does not support l1
 	gsearch= GridSearchCV(estimator = estimator, param_grid = param_softmax, scoring=scoring,refit='Balanced_accuracy',n_jobs=-1,iid=False, cv=5, verbose=10)
 	gsearch.fit(X_train, y_train)
 	print (gsearch.cv_results_)

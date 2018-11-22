@@ -282,7 +282,7 @@ def main():
 		'min_child_weight': range(1, 8, 2)
 	}
 
-	file = dirname(sys.argv[0]) + "/results/XGBoost_result_all_features_n_est_max_delta_step.txt"
+	file = dirname(sys.argv[0]) + "/results/XGBoost_result_all_features_max_depth_min_child_weight1.txt"
 	f = open(file, 'w')
 
 	scoring = {'Balanced_accuracy': make_scorer(balanced_accuracy_score), 'Accuracy': make_scorer(accuracy_score)}
@@ -301,6 +301,8 @@ def main():
 	f.write(str(gsearch.best_score_) + "\n")
 	f.write(str(gsearch.best_estimator_))
 	f.close()
+
+
 
 	return
 

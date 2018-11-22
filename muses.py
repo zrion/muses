@@ -276,8 +276,10 @@ def main():
 
 	# For XGBoost
 	param_XGB = {
-		'n_estimator': [100, 300, 500, 700, 1000],
-		'max_delta_step': [0, 1]					# Check if using this helps improving balanced accuracy
+		# 'n_estimator': [100, 300, 500, 700, 1000],
+		# 'max_delta_step': [0, 1]					# Check if using this helps improving balanced accuracy
+		'max_depth': range(3, 10, 2),
+		'min_child_weight': range(1, 8, 2)
 	}
 
 	file = dirname(sys.argv[0]) + "/results/XGBoost_result_all_features_n_est_max_delta_step.txt"
@@ -286,7 +288,7 @@ def main():
 	scoring = {'Balanced_accuracy': make_scorer(balanced_accuracy_score), 'Accuracy': make_scorer(accuracy_score)}
 
 	estimator = XGBClassifier(learning_rate =0.1, n_estimators=300, max_depth=5,
-	 min_child_weight=1, gamma=0, subsample=0.8, colsample_bytree=0.8,
+	 min_child_weight=1, gamma=0, subsample=0.8, colsample_bytree=0.8, max_delta_step=1,
 	 objective= 'multi_softmax', scale_pos_weight=1, seed=50)
 	gsearch= GridSearchCV(estimator = estimator, param_grid = param_XGB, scoring=scoring,refit='Balanced_accuracy',n_jobs=-1,iid=False, cv=5, verbose=10)
 	gsearch.fit(X_train, y_train)

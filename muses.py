@@ -290,16 +290,19 @@ def main():
 		#5
 		# 'min_child_weight': [9, 10, 11]
 		#6
-		'gamma': [i/10.0 for i in range(0,5)]		
+		# 'gamma': [i/10.0 for i in range(0,5)]
+		#7
+		'subsample':[i/10.0 for i in range(6,10)],
+		'colsample_bytree':[i/10.0 for i in range(6,10)]		
 	}
 
-	file = dirname(sys.argv[0]) + "/results/XGBoost_result_all_features_gamma.txt"
+	file = dirname(sys.argv[0]) + "/results/XGBoost_result_all_features_subsample_colsample.txt"
 	f = open(file, 'w')
 
 	scoring = {'Balanced_accuracy': make_scorer(balanced_accuracy_score), 'Accuracy': make_scorer(accuracy_score)}
 
 	estimator = XGBClassifier(learning_rate =0.1, n_estimators=300, max_depth=9,
-	 min_child_weight=10, gamma=0, subsample=0.8, colsample_bytree=0.8, max_delta_step=1,
+	 min_child_weight=10, gamma=0.3, subsample=0.8, colsample_bytree=0.8, max_delta_step=1,
 	 objective= 'multi_softmax', scale_pos_weight=1, seed=50)
 	gsearch= GridSearchCV(estimator = estimator, param_grid = param_XGB, scoring=scoring,refit='Balanced_accuracy',n_jobs=-1,iid=False, cv=5, verbose=10)
 	gsearch.fit(X_train, y_train)

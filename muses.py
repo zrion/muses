@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from os import listdir
 from os.path import isfile, join, dirname, basename, splitext, realpath
-import sys, re, os, json
+import sys, re, os, json, time
 import pandas as pd
 import numpy as np
 import argparse
@@ -276,19 +276,28 @@ def main():
 
 	# For XGBoost
 	param_XGB = {
+		#1
 		# 'n_estimator': [100, 300, 500, 700, 1000],
 		# 'max_delta_step': [0, 1]					# Check if using this helps improving balanced accuracy
-		'max_depth': range(3, 10, 2),
-		'min_child_weight': range(1, 8, 2)
+		#2
+		# 'max_depth': range(3, 10, 2),
+		# 'min_child_weight': range(1, 8, 2)
+		#3
+		# 'max_depth': [8,9,10],
+		# 'min_child_weight': [6,7,8]
+		#4
+		# 'min_child_weight': [8, 10, 12, 14]
+		#5
+		'min_child_weight': [9, 10, 11]		
 	}
 
-	file = dirname(sys.argv[0]) + "/results/XGBoost_result_all_features_max_depth_min_child_weight1.txt"
+	file = dirname(sys.argv[0]) + "/results/XGBoost_result_all_features_min_child_weight4.txt"
 	f = open(file, 'w')
 
 	scoring = {'Balanced_accuracy': make_scorer(balanced_accuracy_score), 'Accuracy': make_scorer(accuracy_score)}
 
-	estimator = XGBClassifier(learning_rate =0.1, n_estimators=300, max_depth=5,
-	 min_child_weight=1, gamma=0, subsample=0.8, colsample_bytree=0.8, max_delta_step=1,
+	estimator = XGBClassifier(learning_rate =0.1, n_estimators=300, max_depth=9,
+	 min_child_weight=10, gamma=0, subsample=0.8, colsample_bytree=0.8, max_delta_step=1,
 	 objective= 'multi_softmax', scale_pos_weight=1, seed=50)
 	gsearch= GridSearchCV(estimator = estimator, param_grid = param_XGB, scoring=scoring,refit='Balanced_accuracy',n_jobs=-1,iid=False, cv=5, verbose=10)
 	gsearch.fit(X_train, y_train)
@@ -302,12 +311,12 @@ def main():
 	f.write(str(gsearch.best_estimator_))
 	f.close()
 
-
-
 	return
 
 
 if __name__ == '__main__':
+	currenttime = time.time()
 	multiprocessing.set_start_method('forkserver')
 	main()
+	print ("TOTAL PROCESSING TIME:", time.time() - currenttime)
 

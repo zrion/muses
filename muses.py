@@ -288,10 +288,12 @@ def main():
 		#4
 		# 'min_child_weight': [8, 10, 12, 14]
 		#5
-		'min_child_weight': [9, 10, 11]		
+		# 'min_child_weight': [9, 10, 11]
+		#6
+		'gamma': [i/10.0 for i in range(0,5)]		
 	}
 
-	file = dirname(sys.argv[0]) + "/results/XGBoost_result_all_features_min_child_weight4.txt"
+	file = dirname(sys.argv[0]) + "/results/XGBoost_result_all_features_gamma.txt"
 	f = open(file, 'w')
 
 	scoring = {'Balanced_accuracy': make_scorer(balanced_accuracy_score), 'Accuracy': make_scorer(accuracy_score)}

@@ -119,3 +119,45 @@ def modelfit_XGB(alg, X_train, y_train, useTrainCV=True, cv_folds=5, early_stopp
 	# plt.ylabel('Feature Importance Score')
 
 	return
+
+def plot_confusion_matrix(cm, classes, ax,
+                          normalize=False,
+                          title='Confusion matrix',
+                          cmap=plt.cm.Blues):
+
+    if normalize:
+        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+        print("Normalized confusion matrix")
+    else:
+        print('Confusion matrix, without normalization')
+
+    print(cm)
+
+    ax.imshow(cm, interpolation='nearest', cmap=cmap)
+    ax.set_title(title)
+    tick_marks = np.arange(len(classes))
+    ax.set_xticks(tick_marks)
+    ax.set_xticklabels(classes)
+    ax.set_yticks(tick_marks)
+    ax.set_yticklabels(classes)
+
+    fmt = '.2f' if normalize else 'd'
+    thresh = cm.max() / 2.
+    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+        ax.text(j, i, format(cm[i, j], fmt),
+                 horizontalalignment="center",
+                 color="white" if cm[i, j] > thresh else "black")
+
+    ax.set_ylabel('True label')
+    ax.set_xlabel('Predicted label')
+
+# Function to make predictions 
+def prediction(X_test, clf_object): 
+	y_pred = clf_object.predict(X_test)
+	return y_pred
+
+# Function to calculate accuracy 
+def cal_accuracy(y_test, y_pred): 
+	accuracy = 	accuracy_score(y_test,y_pred)*100
+	print ("Accuracy:", accuracy) 
+	return accuracy

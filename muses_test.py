@@ -50,10 +50,34 @@ def main():
 	scaler.fit_transform(X_train)
 	scaler.transform(X_test)
 
+	# Recording file
+	file = dirname(realpath(sys.argv[0])) + "/results/test_results_all_features_except_XGB.txt"
+	recording = open(file, 'w')
+
 	# Best models:
-	best_XGB = XGBClassifier()
-	best_DT = DecisionTreeClassifier()
-	best_NN = MLPClassifier()
-	best_LR = LogisticRegression()
-	best_SVM = SVC()
-	best_ET = ExtraTreesClassfier()
+	# best_XGB = XGBClassifier()
+	best_DT = DecisionTreeClassifier(max_depth=21)
+	best_NN1 = MLPClassifier(hidden_layer_sizes=(600,), activation='relu', alpha=0.1, learning_rate_init=1e-4, verbose=True)
+	best_NN2 = MLPClassifier(hidden_layer_sizes=(600,100), activation='relu', alpha=0.01, learning_rate_init=1e-4, verbose=True)
+	best_LR = LogisticRegression(loss='log', penalty='l1', alpha=0.0001, max_iter=5000, tol=1e-4)
+	best_SVM = SVC(C=0.1, kernel='linear', tol=1e-4)
+	best_ET = ExtraTreesClassfier(n_estimators=3000, max_depth=17, n_jobs=-1)
+
+	# Fitting and testing each model
+	best_DT.fit(X_train, y_train)
+	y_pred_dt = best_DT.predict(X_test)
+
+	best_NN1.fit(X_train, y_train)
+	y_pred_nn1 = best_NN1.predict(X_test)
+
+	best_NN2.fit(X_train, y_train)
+	y_pred_nn2 = best_NN2.predict(X_test)
+
+	best_LR.fit(X_train, y_train)
+	y_pred_lr = best_LR.predict(X_test)
+
+	best_SVM.fit(X_train, y_train)
+	y_pred_svm = best_SVM.predict(X_test)
+
+	best_ET.fit(X_train, y_train)
+	y_pred_et = best_ET.predict(X_test)

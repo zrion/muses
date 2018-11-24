@@ -1,7 +1,9 @@
 from os import listdir
 from os.path import isfile, join, dirname, basename, splitext, realpath
-import sys, re, os, ast
+import sys, re, os, ast, itertools
 import pandas as pd
+import matplotlib.pyplot as plt
+
 
 # Evaluation helper
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score

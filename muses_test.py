@@ -52,11 +52,14 @@ def main():
 	scaler.fit_transform(X_train)
 	scaler.transform(X_test)
 
-
-	print("Before resampling:", y_train.apply(pd.value_counts()))
+	unique, counts = numpy.unique(y_test, return_counts=True)
+	dict_count = dict(zip(unique, counts))
+	print("Before resampling:", dict_count)
 	sm = SMOTE(random_state=2493)
 	X_train, y_train = sm.fit_resample(X_train, y_train)
-	print("After resampling:", y_train.apply(pd.value_counts()))
+	unique, counts = numpy.unique(y_test, return_counts=True)
+	dict_count = dict(zip(unique, counts))
+	print("After resampling:", dict_count)
 
 
 

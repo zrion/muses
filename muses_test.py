@@ -53,11 +53,11 @@ def main():
 	scaler.transform(X_test)
 
 	# Recording file
-	file = dirname(realpath(sys.argv[0])) + "/results/test_results_all_features_XGB_SVM_RBF.txt"
+	file = dirname(realpath(sys.argv[0])) + "/results/test_results_all_features_XGB_lr001_SVM_RBF.txt"
 	recording = open(file, 'w')
 
 	# Best models:
-	best_XGB = XGBClassifier(learning_rate=0.03, n_estimators=1000, max_depth=9, n_jobs=-1,
+	best_XGB = XGBClassifier(learning_rate=0.01, n_estimators=1000, max_depth=9, n_jobs=-1,
 	 min_child_weight=10, gamma=0.3, subsample=0.7, colsample_bytree=0.8, max_delta_step=1,
 	 objective= 'multi_softmax', scale_pos_weight=1, reg_lambda=1, seed=50)
 	best_SVM_RBF = SVC(C=500, kernel='rbf', tol=1e-4)

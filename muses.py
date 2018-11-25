@@ -298,7 +298,7 @@ def main():
  		# 'reg_alpha':[1e-3, 1e-2, 0.1, 1, 100]
  		# 'reg_lambda':[0.01, 0.1, 1, 10, 100]
  		#9
- 		'n_estimators': [500, 1000, 1500, 2000, 2500, 3000]
+ 		'n_estimators': [1000, 2000]
 	}
 
 	file = dirname(sys.argv[0]) + "/results/XGBoost_result_all_features_lr001_n_estimator_increase.txt"

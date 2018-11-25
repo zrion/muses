@@ -53,7 +53,7 @@ def main():
 	scaler.transform(X_test)
 
 	# Recording file
-	file = dirname(realpath(sys.argv[0])) + "/results/test_results_all_features_XGB_lr001_SVM_RBF.txt"
+	file = dirname(realpath(sys.argv[0])) + "/results/test_results_all_models_with_PCA.txt"
 	recording = open(file, 'w')
 
 	# Best models:
@@ -84,7 +84,7 @@ def main():
 		print("Fitting XGB...")
 		accuracy_xgb, bl_accuracy_xgb = testing_model(X_train_PCA, y_train, X_test_PCA, y_test, best_XGB, enc, title='Confusion matrix for XGBoost', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/XGB_" + str(dimension) + "_dims.png")	
 		print("Fitting SVM RBF...")
-		accuracy_svm_rbf, bl_accuracy_svm_rbf = testing_model(X_train_PCA, y_train, X_test_PCA, y_test, best_SVM_RBF, enc, title='Confusion matrix for SVM RBF', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/SVM_RBF_" + str(dimension) "_dims.png")
+		accuracy_svm_rbf, bl_accuracy_svm_rbf = testing_model(X_train_PCA, y_train, X_test_PCA, y_test, best_SVM_RBF, enc, title='Confusion matrix for SVM RBF', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/SVM_RBF_" + str(dimension) + "_dims.png")
 		print("Fitting DT...")
 		accuracy_dt, bl_accuracy_dt = testing_model(X_train_PCA, y_train, X_test_PCA, y_test, best_DT, enc, title='Confusion matrix for Decision Tree', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/decision_tree_" + str(dimension) + "_dims.png")
 		print("Fitting NN1...")

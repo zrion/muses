@@ -149,10 +149,17 @@ def main():
 	# For svm RBF, linear
 	param_SVM = {
 		# 'kernel': ['rbf', 'linear'],
+<<<<<<< HEAD
 		'C': [500, 1000, 1500, 2000]   				# Inverse of lambda
 	}
 
 	file = dirname(sys.argv[0]) + "/results/SVM_RBF2_training_result_all_features.txt"
+=======
+		'C': [1e-4, 1e-3, 0.01, 0.1, 1, 10, 100, 1000]   				# Inverse of lambda
+	}
+
+	file = dirname(sys.argv[0]) + "/results/SVM_RBF_training_result_all_features.txt"
+>>>>>>> 00821f1a8cb15a1ffdb8099716d0a7e83e2ca6e3
 	f = open(file, 'w')
 
 	scoring = {'Balanced_accuracy': make_scorer(balanced_accuracy_score), 'Accuracy': make_scorer(accuracy_score)}

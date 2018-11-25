@@ -306,7 +306,7 @@ def main():
 
 	scoring = {'Balanced_accuracy': make_scorer(balanced_accuracy_score), 'Accuracy': make_scorer(accuracy_score)}
 
-	estimator = XGBClassifier(learning_rate=0.01, n_estimators=300, max_depth=9,
+	estimator = XGBClassifier(learning_rate=0.01, n_estimators=300, max_depth=9, n_jobs=-1,
 	 min_child_weight=10, gamma=0.3, subsample=0.7, colsample_bytree=0.8, max_delta_step=1,
 	 objective= 'multi_softmax', scale_pos_weight=1, reg_lambda=1, seed=50)
 	gsearch= GridSearchCV(estimator = estimator, param_grid = param_XGB, scoring=scoring,refit='Balanced_accuracy',n_jobs=-1,iid=False, cv=5, verbose=10)

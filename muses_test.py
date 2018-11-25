@@ -53,10 +53,10 @@ def main():
 	scaler.transform(X_test)
 
 
-	print("Before resampling:", X_train.apply(pd.value_counts()))
+	print("Before resampling:", y_train.apply(pd.value_counts()))
 	sm = SMOTE(random_state=2493)
 	X_train, y_train = sm.fit_resample(X_train, y_train)
-	print("After resampling:", X_train.apply(pd.value_counts()))
+	print("After resampling:", y_train.apply(pd.value_counts()))
 
 
 

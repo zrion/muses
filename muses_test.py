@@ -69,7 +69,7 @@ def main():
 	best_ET = ExtraTreesClassifier(n_estimators=3000, max_depth=17, n_jobs=-1)
 
 	# PCA
-	PCA_dims = [100, 150, 225, 300, 400]
+	PCA_dims = [150, 225, 300, 375, 450]
 	# Test phase
 	for dimension in PCA_dims:
 		print("Using PCA with # of dimensions:", dimension)
@@ -94,7 +94,7 @@ def main():
 		print("Fitting LR...")
 		accuracy_lr, bl_accuracy_lr = testing_model(X_train_PCA, y_train, X_test_PCA, y_test, best_LR, enc, title='Confusion matrix for Logistic Regression', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/logistic_regression_" + str(dimension) + "_dims.png")
 		print("Fitting SVM Linear...")
-		accuracy_svm_linear, bl_accuracy_svm_linear = testing_model(X_train_PCA, y_train, X_test_PCA, y_test, best_SVM, enc, title='Confusion matrix for SVM Linear', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/svm_linear_" + str(dimension) + "_dims.png")
+		accuracy_svm_linear, bl_accuracy_svm_linear = testing_model(X_train_PCA, y_train, X_test_PCA, y_test, best_SVM_linear, enc, title='Confusion matrix for SVM Linear', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/svm_linear_" + str(dimension) + "_dims.png")
 		print("Fitting ExtraTrees...")
 		accuracy_et, bl_accuracy_et = testing_model(X_train_PCA, y_train, X_test_PCA, y_test, best_ET, enc, title='Confusion matrix for Extra Trees', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/extratrees_" + str(dimension) + "_dims.png")
 

@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import matplotlib
+matplotlib.use("Agg")
 from os import listdir
 from os.path import isfile, join, dirname, basename, splitext, realpath
 import sys, re, os, json
@@ -59,25 +61,35 @@ def main():
 	best_DT = DecisionTreeClassifier(max_depth=21)
 	best_NN1 = MLPClassifier(hidden_layer_sizes=(600,), activation='relu', alpha=0.1, learning_rate_init=1e-4, verbose=True)
 	best_NN2 = MLPClassifier(hidden_layer_sizes=(600,100), activation='relu', alpha=0.01, learning_rate_init=1e-4, verbose=True)
-	best_LR = LogisticRegression(loss='log', penalty='l1', alpha=0.0001, max_iter=5000, tol=1e-4)
+	best_LR = SGDClassifier(loss='log', penalty='l1', alpha=0.0001, max_iter=5000, tol=1e-4)
 	best_SVM = SVC(C=0.1, kernel='linear', tol=1e-4)
-	best_ET = ExtraTreesClassfier(n_estimators=3000, max_depth=17, n_jobs=-1)
+	best_ET = ExtraTreesClassifier(n_estimators=3000, max_depth=17, n_jobs=-1)
 
-	# Fitting and testing each model
-	best_DT.fit(X_train, y_train)
-	y_pred_dt = best_DT.predict(X_test)
+	# Test phase
+	print("Calculate accuracies and confusion matrices for models...")
 
-	best_NN1.fit(X_train, y_train)
-	y_pred_nn1 = best_NN1.predict(X_test)
+	accuracy_dt, bl_accuracy_dt = testing_model(X_train, y_train, X_test, y_test, best_DT, enc, title='Confusion matrix for Decision Tree', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/decision_tree_all_features.png")
+	accuracy_nn1, bl_accuracy_nn1 = testing_model(X_train, y_train, X_test, y_test, best_NN1, enc, title='Confusion matrix for Neural Network 3 layers', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/neural_network1_all_features.png")
+	accuracy_nn2, bl_accuracy_nn2 = testing_model(X_train, y_train, X_test, y_test, best_NN2, enc, title='Confusion matrix for Neural Network 4 layers', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/neural_network2_all_features.png")
+	accuracy_lr, bl_accuracy_lr = testing_model(X_train, y_train, X_test, y_test, best_LR, enc, title='Confusion matrix for Logistic Regression', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/logistic_regression_all_features.png")
+	accuracy_svm, bl_accuracy_svm = testing_model(X_train, y_train, X_test, y_test, best_SVM, enc, title='Confusion matrix for Support Vector Machine', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/svm_all_features.png")
+	accuracy_et, bl_accuracy_et = testing_model(X_train, y_train, X_test, y_test, best_ET, enc, title='Confusion matrix for Extra Trees', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/extratrees_all_features.png")
 
-	best_NN2.fit(X_train, y_train)
-	y_pred_nn2 = best_NN2.predict(X_test)
+	print("Saving records...")
+	print("Decision Tree:", "Accuracy", accuracy_dt, "Balanced accuracy", bl_accuracy_dt)
+	print("Neural Network 1:", "Accuracy", accuracy_nn1, "Balanced accuracy", bl_accuracy_nn1)
+	print("Neural Network 2:", "Accuracy", accuracy_nn2, "Balanced accuracy", bl_accuracy_nn2)
+	print("Logistic Regression (OVR):", "Accuracy", accuracy_lr, "Balanced accuracy", bl_accuracy_lr)
+	print("SVM:", "Accuracy", accuracy_svm, "Balanced accuracy", bl_accuracy_svm)
+	print("ExtraTrees:", "Accuracy", accuracy_et, "Balanced accuracy", bl_accuracy_et)
 
-	best_LR.fit(X_train, y_train)
-	y_pred_lr = best_LR.predict(X_test)
+	recording.write("Decision Tree: " + " Accuracy " + str(accuracy_dt) + " Balanced accuracy " + str(bl_accuracy_dt) + "\n")
+	recording.write("Neural Network 1: " + " Accuracy " + str(accuracy_nn1) + " Balanced accuracy " + str(bl_accuracy_nn1) + "\n")
+	recording.write("Neural Network 2: " + " Accuracy " + str(accuracy_nn2) + " Balanced accuracy " + str(bl_accuracy_nn2) + "\n")
+	recording.write("Logistic Regression (OVR): " + " Accuracy " + str(accuracy_lr) + " Balanced accuracy " + str(bl_accuracy_lr) + "\n")
+	recording.write("SVM: " + " Accuracy " + str(accuracy_svm) + " Balanced accuracy " + str(bl_accuracy_svm) + "\n")
+	recording.write("ExtraTrees: " + " Accuracy " + str(accuracy_et) + " Balanced accuracy " + str(bl_accuracy_et) + "\n")
+	recording.close()		
 
-	best_SVM.fit(X_train, y_train)
-	y_pred_svm = best_SVM.predict(X_test)
-
-	best_ET.fit(X_train, y_train)
-	y_pred_et = best_ET.predict(X_test)
+if __name__ == "__main__":
+	main()

@@ -146,29 +146,29 @@ def main():
 	# f.close()
 
 	# print(">..........................................................")
-	# # For svm RBF, linear
-	# param_SVM = {
-	# 	'kernel': ['rbf', 'linear'],
-	# 	'C': [1e-4, 1e-3, 0.01, 0.1, 1, 10, 100, 1000]   				# Inverse of lambda
-	# }
+	# For svm RBF, linear
+	param_SVM = {
+		# 'kernel': ['rbf', 'linear'],
+		'C': [1e-4, 1e-3, 0.01, 0.1, 1, 10, 100, 1000]   				# Inverse of lambda
+	}
 
-	# file = dirname(sys.argv[0]) + "/results/SVM_training_result_all_features.txt"
-	# f = open(file, 'w')
+	file = dirname(sys.argv[0]) + "/results/SVM_RBF_training_result_all_features.txt"
+	f = open(file, 'w')
 
-	# scoring = {'Balanced_accuracy': make_scorer(balanced_accuracy_score), 'Accuracy': make_scorer(accuracy_score)}
+	scoring = {'Balanced_accuracy': make_scorer(balanced_accuracy_score), 'Accuracy': make_scorer(accuracy_score)}
 
-	# estimator = SVC(C=1, kernel='rbf', tol=1e-4)
-	# gsearch= GridSearchCV(estimator = estimator, param_grid = param_SVM, scoring=scoring,refit='Balanced_accuracy',n_jobs=-1,iid=False, cv=5, verbose=10)
-	# gsearch.fit(X_train, y_train)
-	# print (gsearch.cv_results_)
-	# print (gsearch.best_params_)
-	# print (gsearch.best_score_)
-	# print (gsearch.best_estimator_)
-	# f.write(str(gsearch.cv_results_) + "\n")
-	# f.write(str(gsearch.best_params_) + "\n")
-	# f.write(str(gsearch.best_score_) + "\n")
-	# f.write(str(gsearch.best_estimator_))
-	# f.close()
+	estimator = SVC(C=1, kernel='rbf', tol=1e-4)
+	gsearch= GridSearchCV(estimator = estimator, param_grid = param_SVM, scoring=scoring,refit='Balanced_accuracy',n_jobs=-1,iid=False, cv=5, verbose=10)
+	gsearch.fit(X_train, y_train)
+	print (gsearch.cv_results_)
+	print (gsearch.best_params_)
+	print (gsearch.best_score_)
+	print (gsearch.best_estimator_)
+	f.write(str(gsearch.cv_results_) + "\n")
+	f.write(str(gsearch.best_params_) + "\n")
+	f.write(str(gsearch.best_score_) + "\n")
+	f.write(str(gsearch.best_estimator_))
+	f.close()
 
 	# print(">..........................................................")
 
@@ -274,47 +274,50 @@ def main():
 	# f.write(str(gsearch.best_estimator_))
 	# f.close()
 
-	# For XGBoost
-	param_XGB = {
-		#1
-		# 'n_estimator': [100, 300, 500, 700, 1000],
-		# 'max_delta_step': [0, 1]					# Check if using this helps improving balanced accuracy
-		#2
-		# 'max_depth': range(3, 10, 2),
-		# 'min_child_weight': range(1, 8, 2)
-		#3
-		# 'max_depth': [8,9,10],
-		# 'min_child_weight': [6,7,8]
-		#4
-		# 'min_child_weight': [8, 10, 12, 14]
-		#5
-		# 'min_child_weight': [9, 10, 11]
-		#6
-		# 'gamma': [i/10.0 for i in range(0,5)]
-		#7
-		'subsample':[i/10.0 for i in range(6,10)],
-		'colsample_bytree':[i/10.0 for i in range(6,10)]		
-	}
+	# # For XGBoost
+	# param_XGB = {
+	# 	#1
+	# 	# 'n_estimator': [100, 300, 500, 700, 1000],
+	# 	# 'max_delta_step': [0, 1]					# Check if using this helps improving balanced accuracy
+	# 	#2
+	# 	# 'max_depth': range(3, 10, 2),
+	# 	# 'min_child_weight': range(1, 8, 2)
+	# 	#3
+	# 	# 'max_depth': [8,9,10],
+	# 	# 'min_child_weight': [6,7,8]
+	# 	#4
+	# 	# 'min_child_weight': [8, 10, 12, 14]
+	# 	#5
+	# 	# 'min_child_weight': [9, 10, 11]
+	# 	#6
+	# 	# 'gamma': [i/10.0 for i in range(0,5)]
+	# 	#7
+	# 	# 'subsample':[i/10.0 for i in range(6,10)],
+	# 	# 'colsample_bytree':[i/10.0 for i in range(6,10)]
+	# 	#8
+ # 		# 'reg_alpha':[1e-3, 1e-2, 0.1, 1, 100]
+ # 		'reg_lambda':[0.01, 0.1, 1, 10, 100]		
+	# }
 
-	file = dirname(sys.argv[0]) + "/results/XGBoost_result_all_features_subsample_colsample.txt"
-	f = open(file, 'w')
+	# file = dirname(sys.argv[0]) + "/results/XGBoost_result_all_features_lambda.txt"
+	# f = open(file, 'w')
 
-	scoring = {'Balanced_accuracy': make_scorer(balanced_accuracy_score), 'Accuracy': make_scorer(accuracy_score)}
+	# scoring = {'Balanced_accuracy': make_scorer(balanced_accuracy_score), 'Accuracy': make_scorer(accuracy_score)}
 
-	estimator = XGBClassifier(learning_rate =0.1, n_estimators=300, max_depth=9,
-	 min_child_weight=10, gamma=0.3, subsample=0.8, colsample_bytree=0.8, max_delta_step=1,
-	 objective= 'multi_softmax', scale_pos_weight=1, seed=50)
-	gsearch= GridSearchCV(estimator = estimator, param_grid = param_XGB, scoring=scoring,refit='Balanced_accuracy',n_jobs=-1,iid=False, cv=5, verbose=10)
-	gsearch.fit(X_train, y_train)
-	print (gsearch.cv_results_)
-	print (gsearch.best_params_)
-	print (gsearch.best_score_)
-	print (gsearch.best_estimator_)
-	f.write(str(gsearch.cv_results_) + "\n")
-	f.write(str(gsearch.best_params_) + "\n")
-	f.write(str(gsearch.best_score_) + "\n")
-	f.write(str(gsearch.best_estimator_))
-	f.close()
+	# estimator = XGBClassifier(learning_rate =0.1, n_estimators=300, max_depth=9,
+	#  min_child_weight=10, gamma=0.3, subsample=0.7, colsample_bytree=0.8, max_delta_step=1,
+	#  objective= 'multi_softmax', scale_pos_weight=1, reg_lambda=1, seed=50)
+	# gsearch= GridSearchCV(estimator = estimator, param_grid = param_XGB, scoring=scoring,refit='Balanced_accuracy',n_jobs=-1,iid=False, cv=5, verbose=10)
+	# gsearch.fit(X_train, y_train)
+	# print (gsearch.cv_results_)
+	# print (gsearch.best_params_)
+	# print (gsearch.best_score_)
+	# print (gsearch.best_estimator_)
+	# f.write(str(gsearch.cv_results_) + "\n")
+	# f.write(str(gsearch.best_params_) + "\n")
+	# f.write(str(gsearch.best_score_) + "\n")
+	# f.write(str(gsearch.best_estimator_))
+	# f.close()
 
 	return
 

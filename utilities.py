@@ -1,12 +1,13 @@
 from os import listdir
 from os.path import isfile, join, dirname, basename, splitext, realpath
 import sys, re, os, ast, itertools
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-
+import matplotlib
 
 # Evaluation helper
-from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
+from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.model_selection import KFold 
 from sklearn.metrics import accuracy_score, balanced_accuracy_score, confusion_matrix, log_loss, f1_score
 from sklearn.metrics import make_scorer
@@ -20,8 +21,19 @@ from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.utils import shuffle
 from imblearn.over_sampling import SMOTE					# Handle imbalanced set
 
-# Metrics
-from sklearn.metrics import accuracy_score
+# Feature selection
+from sklearn.decomposition import PCA
+
+# Models
+import xgboost as xgb                               	
+from xgboost import XGBClassifier						# XGBoost
+from sklearn.ensemble import ExtraTreesClassifier 		# ExtraTrees
+from sklearn.neural_network import MLPClassifier		# Multilayer Perceptron
+from sklearn.linear_model import SGDClassifier, LogisticRegression
+from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
+
+
 def load(filepath):
 	filename = os.path.basename(filepath)
 
@@ -123,43 +135,67 @@ def modelfit_XGB(alg, X_train, y_train, useTrainCV=True, cv_folds=5, early_stopp
 	return
 
 def plot_confusion_matrix(cm, classes, ax,
-                          normalize=False,
-                          title='Confusion matrix',
-                          cmap=plt.cm.Blues):
+							normalize=False,
+							title='Confusion matrix',
+							cmap=plt.cm.Blues):
 
-    if normalize:
-        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
-        print("Normalized confusion matrix")
-    else:
-        print('Confusion matrix, without normalization')
+	if normalize:
+		cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+		print("Plotting normalized confusion matrix...")
+	else:
+		print("Plotting confusion matrix, without normalization...")
 
-    print(cm)
+	ax.imshow(cm, interpolation='nearest', cmap=cmap)
+	ax.set_title(title)
+	tick_marks = np.arange(len(classes))
+	ax.set_xticks(tick_marks)
+	ax.set_xticklabels(classes, rotation=45, fontsize=4)
+	ax.set_yticks(tick_marks)
+	ax.set_yticklabels(classes, rotation=0, fontsize=4)
 
-    ax.imshow(cm, interpolation='nearest', cmap=cmap)
-    ax.set_title(title)
-    tick_marks = np.arange(len(classes))
-    ax.set_xticks(tick_marks)
-    ax.set_xticklabels(classes)
-    ax.set_yticks(tick_marks)
-    ax.set_yticklabels(classes)
+	fmt = '.2f' if normalize else 'd'
+	thresh = cm.max() / 2.
+	for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+		ax.text(j, i, format(cm[i, j], fmt),
+			horizontalalignment="center", fontsize=5,
+			color="white" if cm[i, j] > thresh else "black")
 
-    fmt = '.2f' if normalize else 'd'
-    thresh = cm.max() / 2.
-    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
-        ax.text(j, i, format(cm[i, j], fmt),
-                 horizontalalignment="center",
-                 color="white" if cm[i, j] > thresh else "black")
+	ax.set_ylabel('True label', fontsize=8)
+	ax.set_xlabel('Predicted label', fontsize=8)
 
-    ax.set_ylabel('True label')
-    ax.set_xlabel('Predicted label')
-
-# Function to make predictions 
-def prediction(X_test, clf_object): 
-	y_pred = clf_object.predict(X_test)
-	return y_pred
+	return
 
 # Function to calculate accuracy 
 def cal_accuracy(y_test, y_pred): 
 	accuracy = 	accuracy_score(y_test,y_pred)*100
-	print ("Accuracy:", accuracy) 
-	return accuracy
+	print ("Accuracy:", accuracy)
+	bl_accuracy = balanced_accuracy_score(y_test, y_pred)*100
+	print ("Balanced accuracy:", bl_accuracy) 
+	return accuracy, bl_accuracy
+
+# Function for testing
+def testing_model(X_train, y_train, X_test, y_test, clf, enc, title, savefig):
+	# Fitting and testing each model
+	clf.fit(X_train, y_train)
+	y_pred = clf.predict(X_test)
+	accuracy, bl_accuracy = cal_accuracy(y_test, y_pred)
+
+	# Reverse back to original label for plotting
+	y_test = list(enc.inverse_transform(y_test))
+	y_pred = list(enc.inverse_transform(y_pred))
+
+	# Generate confusion matrix
+	cnf_matrix = confusion_matrix(y_test, y_pred) 
+
+	genres, count = np.unique(y_test, return_counts=True)
+	print ("Genres supported:", genres)
+
+	ax = plt.subplot(111)
+	plot_confusion_matrix(cnf_matrix, classes=genres, ax=ax, normalize=True,
+                      title='Confusion matrix for Decision Tree')
+
+	plt.tight_layout()
+	plt.savefig(savefig, format="png", dpi=300)
+	plt.close()
+
+	return accuracy, bl_accuracy

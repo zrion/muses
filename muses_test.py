@@ -52,6 +52,10 @@ def main():
 	scaler.fit_transform(X_train)
 	scaler.transform(X_test)
 
+	# I need to convert to numpy array instead of panda dataframe in order to use xgboost with imblearn
+	X_train = X_train.as_matrix()
+	X_test = X_test.as_matrix()
+
 	# unique, counts = np.unique(y_train, return_counts=True)
 	# dict_count = dict(zip(unique, counts))
 	# print("Before resampling:", dict_count)

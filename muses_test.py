@@ -56,7 +56,7 @@ def main():
 	# dict_count = dict(zip(unique, counts))
 	# print("Before resampling:", dict_count)
 	dict_resampling={0:2000, 1:2000, 2:2000, 3:2000, 5:2000, 6: 2000, 7:2000, 8:2000, 9:2000, 10:2000, 11:2000, 12:2000, 14:2000, 15:2000}
-	sm = SMOTE(sampling_strategy=dict_resampling, random_state=2493)
+	sm = SMOTE(random_state=2493)
 	X_train, y_train = sm.fit_resample(X_train, y_train)
 	# unique, counts = np.unique(y_train, return_counts=True)
 	# dict_count = dict(zip(unique, counts))
@@ -66,11 +66,11 @@ def main():
 
 
 	# Recording file
-	file = dirname(realpath(sys.argv[0])) + "/results/test_results_all_models_all_features_with_SMOTE_2000resamps.txt"
+	file = dirname(realpath(sys.argv[0])) + "/results/test_results_all_models_all_features_with_SMOTE_XGB_0.1lr.txt"
 	recording = open(file, 'w')
 
 	# Best models:
-	best_XGB = XGBClassifier(learning_rate=0.01, n_estimators=1000, max_depth=9, n_jobs=-1,
+	best_XGB = XGBClassifier(learning_rate=0.1, n_estimators=300, max_depth=9, n_jobs=-1,
 	 min_child_weight=10, gamma=0.3, subsample=0.7, colsample_bytree=0.8, max_delta_step=1,
 	 objective= 'multi_softmax', scale_pos_weight=1, reg_lambda=1, seed=50)
 	best_SVM_RBF = SVC(C=500, kernel='rbf', tol=1e-4)

@@ -35,10 +35,7 @@ def main():
 	y_train = tracks.loc[medium & train, ('track', 'genre_top')]
 	y_test = tracks.loc[medium & test, ('track', 'genre_top')]
 
-	print y_train.shape
-	print y_test.shape
-	
-	y = np.vstack((y_train, y_test))
+	y = np.vstack((y_train[:,None], y_test[:, None]))
 
 	# Test: Drawing class imbalance
 	unique, counts = np.unique(y, return_counts=True)

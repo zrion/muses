@@ -1,0 +1,9 @@
+XGBoost:  Accuracy 64.32180334240186 Balanced accuracy 38.73885598812973
+SVM RBF:  Accuracy 62.88379323746599 Balanced accuracy 40.11915227094146
+Decision Tree:  Accuracy 42.79051690633502 Balanced accuracy 23.414982991329484
+Neural Network 1:  Accuracy 61.67897396035757 Balanced accuracy 40.366002445578786
+Neural Network 2:  Accuracy 59.46366109599689 Balanced accuracy 38.85517823491521
+Logistic Regression (OVR):  Accuracy 53.75048581422463 Balanced accuracy 33.00442665818106
+SVM Linear:  Accuracy 61.01826661484648 Balanced accuracy 38.85042015536712
+ExtraTrees:  Accuracy 57.675864749319864 Balanced accuracy 28.04807911674886
+>------------------------------------------------

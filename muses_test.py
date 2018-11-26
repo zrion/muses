@@ -56,21 +56,21 @@ def main():
 	X_train = X_train.as_matrix()
 	X_test = X_test.as_matrix()
 
-	# unique, counts = np.unique(y_train, return_counts=True)
-	# dict_count = dict(zip(unique, counts))
-	# print("Before resampling:", dict_count)
-	dict_resampling={0:2000, 1:2000, 2:2000, 3:2000, 5:2000, 6: 2000, 7:2000, 8:2000, 9:2000, 10:2000, 11:2000, 12:2000, 14:2000, 15:2000}
-	sm = SMOTE(random_state=2493)
-	X_train, y_train = sm.fit_resample(X_train, y_train)
-	# unique, counts = np.unique(y_train, return_counts=True)
-	# dict_count = dict(zip(unique, counts))
-	# print("After resampling:", dict_count)
-	print("New dataset dimension:", X_train.shape)
+	# # unique, counts = np.unique(y_train, return_counts=True)
+	# # dict_count = dict(zip(unique, counts))
+	# # print("Before resampling:", dict_count)
+	# dict_resampling={0:2000, 1:2000, 2:2000, 3:2000, 5:2000, 6: 2000, 7:2000, 8:2000, 9:2000, 10:2000, 11:2000, 12:2000, 14:2000, 15:2000}
+	# sm = SMOTE(random_state=2493)
+	# X_train, y_train = sm.fit_resample(X_train, y_train)
+	# # unique, counts = np.unique(y_train, return_counts=True)
+	# # dict_count = dict(zip(unique, counts))
+	# # print("After resampling:", dict_count)
+	# print("New dataset dimension:", X_train.shape)
 
 
 
 	# Recording file
-	file = dirname(realpath(sys.argv[0])) + "/results/test_results_all_models_all_features_with_SMOTE_XGB_0.1lr.txt"
+	file = dirname(realpath(sys.argv[0])) + "/results/test_results_all_models_all_features_XGB0.1lr.txt"
 	recording = open(file, 'w')
 
 	# Best models:
@@ -142,21 +142,21 @@ def main():
 
 	print("Calculate accuracies and confusion matrices for models...")
 	print("Fitting XGB...")
-	accuracy_xgb, bl_accuracy_xgb = testing_model(X_train, y_train, X_test, y_test, best_XGB, enc, title='Confusion matrix for XGBoost', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/XGB_with_SMOTE_rerun.png")	
+	accuracy_xgb, bl_accuracy_xgb = testing_model(X_train, y_train, X_test, y_test, best_XGB, enc, title='Confusion matrix for XGBoost', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/XGB_all_features_rerun.png")	
 	print("Fitting SVM RBF...")
-	accuracy_svm_rbf, bl_accuracy_svm_rbf = testing_model(X_train, y_train, X_test, y_test, best_SVM_RBF, enc, title='Confusion matrix for SVM RBF', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/SVM_RBF_with_SMOTE_rerun.png")
+	accuracy_svm_rbf, bl_accuracy_svm_rbf = testing_model(X_train, y_train, X_test, y_test, best_SVM_RBF, enc, title='Confusion matrix for SVM RBF', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/SVM_RBF_all_features_rerun.png")
 	print("Fitting DT...")
-	accuracy_dt, bl_accuracy_dt = testing_model(X_train, y_train, X_test, y_test, best_DT, enc, title='Confusion matrix for Decision Tree', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/decision_tree_with_SMOTE_rerun.png")
+	accuracy_dt, bl_accuracy_dt = testing_model(X_train, y_train, X_test, y_test, best_DT, enc, title='Confusion matrix for Decision Tree', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/decision_tree_all_features_rerun.png")
 	print("Fitting NN1...")
-	accuracy_nn1, bl_accuracy_nn1 = testing_model(X_train, y_train, X_test, y_test, best_NN1, enc, title='Confusion matrix for Neural Network 3 layers', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/neural_network1_with_SMOTE_rerun.png")
+	accuracy_nn1, bl_accuracy_nn1 = testing_model(X_train, y_train, X_test, y_test, best_NN1, enc, title='Confusion matrix for Neural Network 3 layers', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/neural_network1_all_features_rerun.png")
 	print("Fitting NN2...")
-	accuracy_nn2, bl_accuracy_nn2 = testing_model(X_train, y_train, X_test, y_test, best_NN2, enc, title='Confusion matrix for Neural Network 4 layers', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/neural_network2_with_SMOTE_rerun.png")
+	accuracy_nn2, bl_accuracy_nn2 = testing_model(X_train, y_train, X_test, y_test, best_NN2, enc, title='Confusion matrix for Neural Network 4 layers', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/neural_network2_all_features_rerun.png")
 	print("Fitting LR...")
-	accuracy_lr, bl_accuracy_lr = testing_model(X_train, y_train, X_test, y_test, best_LR, enc, title='Confusion matrix for Logistic Regression', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/logistic_regression_with_SMOTE_rerun.png")
+	accuracy_lr, bl_accuracy_lr = testing_model(X_train, y_train, X_test, y_test, best_LR, enc, title='Confusion matrix for Logistic Regression', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/logistic_regression_all_features_rerun.png")
 	print("Fitting SVM Linear...")
-	accuracy_svm_linear, bl_accuracy_svm_linear = testing_model(X_train, y_train, X_test, y_test, best_SVM_linear, enc, title='Confusion matrix for SVM Linear', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/svm_linear_with_SMOTE_rerun.png")
+	accuracy_svm_linear, bl_accuracy_svm_linear = testing_model(X_train, y_train, X_test, y_test, best_SVM_linear, enc, title='Confusion matrix for SVM Linear', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/svm_linear_all_features_rerun.png")
 	print("Fitting ExtraTrees...")
-	accuracy_et, bl_accuracy_et = testing_model(X_train, y_train, X_test, y_test, best_ET, enc, title='Confusion matrix for Extra Trees', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/extratrees_with_SMOTE_rerun.png")
+	accuracy_et, bl_accuracy_et = testing_model(X_train, y_train, X_test, y_test, best_ET, enc, title='Confusion matrix for Extra Trees', savefig = dirname(realpath(sys.argv[0])) + "/results/conf_matrix/extratrees_all_features_rerun.png")
 
 	print("Saving records...")
 	print("Decision Tree:", "Accuracy", accuracy_dt, "Balanced accuracy", bl_accuracy_dt)

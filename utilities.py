@@ -192,7 +192,7 @@ def testing_model(X_train, y_train, X_test, y_test, clf, enc, title, savefig):
 
 	ax = plt.subplot(111)
 	plot_confusion_matrix(cnf_matrix, classes=genres, ax=ax, normalize=True,
-                      title='Confusion matrix for Decision Tree')
+                      title=title)
 
 	plt.tight_layout()
 	plt.savefig(savefig, format="png", dpi=300)

@@ -35,6 +35,9 @@ def main():
 	y_train = tracks.loc[medium & train, ('track', 'genre_top')]
 	y_test = tracks.loc[medium & test, ('track', 'genre_top')]
 
+	print y_train.shape
+	print y_test.shape
+	
 	y = np.vstack((y_train, y_test))
 
 	# Test: Drawing class imbalance

@@ -11,6 +11,7 @@ We focus on music genre classification, which is important for music information
 Models that I used:
 - Baseline models: Logistic regression, Decision Tree, SVM kernel RBF/Linear, Neural Network
 - **Ensemble models**: XGBoost (Extreme Gradient Boosting) and ExtraTrees (Extremely Randomized Trees)
+Hyper-parameters have been tuned with 5-fold cross validation.
 
 Further techniques that I used:
 - Principal Component Analysis (PCA) for dimensionality reduction.

@@ -9,7 +9,7 @@ We focus on music genre classification, which is important for music information
 - Dataset: Free Music Archive (FMA) https://github.com/mdeff/fma
 
 Models that I used:
-- Baseline models: Logistic regression, Decision Tree, SVM kernel RBF, Neural Network
+- Baseline models: Logistic regression, Decision Tree, SVM kernel RBF/Linear, Neural Network
 - **Ensemble models**: XGBoost (Extreme Gradient Boosting) and ExtraTrees (Extremely Randomized Trees)
 
 Further techniques that I used:

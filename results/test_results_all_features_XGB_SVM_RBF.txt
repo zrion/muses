@@ -1,2 +1,0 @@
-XGBoost:  Accuracy 63.81655654877575 Balanced accuracy 38.04818519885096
-SVM RBF:  Accuracy 62.88379323746599 Balanced accuracy 40.11915227094146

@@ -6,6 +6,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib
 
+########################################################################################################
+##										MUSES  														####
+########################################################################################################
+
+'''
+	Utilities and helper packages
+'''
+
 # Evaluation helper
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.model_selection import KFold 
@@ -35,6 +43,9 @@ from sklearn.tree import DecisionTreeClassifier
 
 
 def load(filepath):
+	''' 
+		Loading dataset
+	'''
 	filename = os.path.basename(filepath)
 
 	if 'features' in filename:
@@ -94,7 +105,9 @@ def k_fold_cv(X_train, y_train, num_folds, classifier):
 
 	return avg_scores
 
+## DEPRECATED***
 def evaluation(y_test, y_pred):
+
 	confusion_matrix = confusion_matrix(y_test, y_pred) 
 	accuracy = 	accuracy_score(y_test,y_pred)*100
 	
@@ -102,6 +115,7 @@ def evaluation(y_test, y_pred):
 	  
 	return accuracy
 
+## DEPRECATED***
 def modelfit_XGB(alg, X_train, y_train, useTrainCV=True, cv_folds=5, early_stopping_rounds=50):
 	'''
 		Fitting function for our main method: XGBoost.
@@ -138,7 +152,9 @@ def plot_confusion_matrix(cm, classes, ax,
 							normalize=False,
 							title='Confusion matrix',
 							cmap=plt.cm.Blues):
-
+	'''
+		Plotting confusion matrix with option to normalize the accuracy
+	'''
 	if normalize:
 		cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
 		print("Plotting normalized confusion matrix...")

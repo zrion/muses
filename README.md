@@ -1,24 +1,31 @@
-# MusEs: *Mu*sic genre cla*s*sification with *E*n*s*emble learning
+# MusEs: *MU*sic genre cla*S*sification with *E*n*S*emble learning
 
-We focus on music genre classification, which is a crucial problem for music recommender systems.
+We focus on music genre classification, which is important for music information retrieval and is an interesting problem. 
 
-- Python version: Python 2.7
+- Python version: Python 3.4+ (*This is to take advantages of parallel processing with GridSearchCV, which has some problems with multiprocessing that is hard to solve in lower Python version.*)
 - Libraries used: 
-	- For data manipulation and visualization: Numpy, scipy, pandas, matplotlib
+	- For data manipulation and visualization: Numpy, scipy, pandas, matplotlib, imbalanced-learn
 	- For learning and prediction: Scikit-learn, xgboost
+- Dataset: Free Music Archive (FMA) https://github.com/mdeff/fma
 
-
-We will evaluate through various learning models for the task. Planned models to use:
-- Baseline models: Softmax regression, Decision tree
-- Advanced models: SVM kernel RBF, Neural Network
+Models that I used:
+- Baseline models: Logistic regression, Decision Tree, SVM kernel RBF, Neural Network
 - **Ensemble models**: XGBoost (Extreme Gradient Boosting) and ExtraTrees (Extremely Randomized Trees)
 
-Our techniques we intent to use:
-- Unbalanced dataset: Resampling (Problem: Overfitting!!), Cost-Sensitive Learning (Problem: Cannot wrap around for all models! (http://storm.cis.fordham.edu/~gweiss/papers/dmin07-weiss.pdf)
-- Overfitting: Regularization (L2, LASSO), Dropout (for neural network)
-- Feature selection: PCA, any other (e.g. pre-analyze data to see if features are discriminate)?
+Further techniques that I used:
+- Principal Component Analysis (PCA) for dimensionality reduction.
+- Synthetic Minority Over-sampling (SMOTE) for balancing the dataset.
 
-Our strategy:
-- Cleaning up dataset: Basically dataset is clean already, no missing values and all values are numerical so appropriate for any models. So what we need to do is FEATURE SELECTIONS. One obvious approach is dimensionality reduction. Another "exhaustive" approach is manual selection. We investigate data based on the kind of features, e.g. 'mfcc', 'tonnetz', etc. Due to time limit, I would not suggest to do this.
-- Parameter tuning: One way to apply CV is to train n_estimators and max_depth. Other parameters like gamma, learning_rate, alpha, beta can be set after that.
-- We first focus especially on improving the XGBoost, once get a good result, we evaluate other models.  
+Possible directions for future work:
+- Feature engineering for selecting best subset of features
+- Relabeling data to alleviate the effect of imbalanced dataset
+- Cost-Sensitive Learning is another approach for imbalanced dataset (Problem: Cannot wrap around for all models! (http://storm.cis.fordham.edu/~gweiss/papers/dmin07-weiss.pdf)
+- Classification with automatic feature extraction using Convolutional Neural Network with strong classification models: XGBoost, Deep Neural Network
+
+**Notes** if you want to use the code:
+- Make sure that you have all the required library installed. The easiest way is by using *pip install*
+- Make sure that you understand how to tune hyperparameters using GridSearchCV. You should see in the code that I've done the tuning extensively to many models and that could cause confusion if you are not familiar with using *scikit-learn*
+- Please check the path to recording files.
+
+
+

@@ -1,5 +1,9 @@
 # MusEs: *MU*sic genre cla*S*sification with *E*n*S*emble learning
 
+<span style="font-family:Papyrus; font-size:4em;">Hai N. Nguyen, PhD student</span>\
+<span style="font-family:Papyrus; font-size:4em;">Khoury College of Computer Sciences, Northeastern University</span>\
+<span style="font-family:Papyrus; font-size:4em;">In the scope of CS6140 Machine Learning final project</span>
+
 We focus on music genre classification, which is important for music information retrieval and is an interesting problem. 
 
 - Python version: Python 3.4+ (*This is to take advantages of parallel processing with GridSearchCV, which has some problems with multiprocessing that is hard to solve in lower Python version.*)
@@ -23,9 +27,9 @@ Possible directions for future work:
 - Cost-Sensitive Learning is another approach for imbalanced dataset (Problem: Cannot wrap around for all models! (http://storm.cis.fordham.edu/~gweiss/papers/dmin07-weiss.pdf)
 - Classification with automatic feature extraction using Convolutional Neural Network with strong classification models: XGBoost, Deep Neural Network
 
-**Notes** if you want to use the code:
-- Make sure that you have all the required library installed. The easiest way is by using *pip install*
-- Make sure that you understand how to tune hyperparameters using GridSearchCV. You should see in the code that I've done the tuning extensively to many models and that could cause confusion if you are not familiar with using *scikit-learn*
+**Notes**
+- Make sure that you have all the required library installed. The easiest way is by using `pip install`
+- Make sure that you are comfortable with tuning hyperparameters using `GridSearchCV`.
 - Please check the path to recording files.
 
 
